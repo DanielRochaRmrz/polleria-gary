@@ -1,0 +1,8 @@
+.row > * {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 100%;
+  padding-right: calc(var(--mdb-gutter-x) * -1.5);
+  padding-left: calc(var(--mdb-gutter-x) * -1.5);
+  margin-top: var(--mdb-gutter-y);
+}

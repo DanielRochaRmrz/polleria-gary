@@ -1,0 +1,61 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Agregar proveedor</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Cerrar"
+    (click)="modalRef.close()"
+  ></button>
+</div>
+<form
+  autocomplete="off"
+  [formGroup]="miFormulario"
+  (ngSubmit)="providerUpdate()"
+>
+  <div class="modal-body">
+    <div class="row mb-5 mt-3 ms-3 me-3">
+      <mdb-form-control>
+        <input
+          mdbValidate
+          mdbInput
+          type="text"
+          class="form-control"
+          formControlName="nombre"
+          required
+        />
+        <label mdbLabel class="form-label">Nombre</label>
+        <mdb-error *ngIf="campoNoValido('nombre')">
+          El campo nombre es obligatorio
+        </mdb-error>
+      </mdb-form-control>
+    </div>
+    <div class="row mb-5 ms-3 me-3">
+      <mdb-form-control>
+        <input
+          mdbValidate
+          mdbInput
+          type="text"
+          class="form-control"
+          formControlName="rfc"
+          required
+        />
+        <label mdbLabel class="form-label">RFC</label>
+        <mdb-error *ngIf="campoNoValido('rfc')">
+          {{ rfcErrorMsg }}
+        </mdb-error>
+      </mdb-form-control>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
+      Cerrar
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="miFormulario.invalid || miFormulario.pending"
+    >
+      Guardar
+    </button>
+  </div>
+</form>

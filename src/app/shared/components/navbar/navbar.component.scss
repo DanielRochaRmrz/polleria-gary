@@ -1,0 +1,47 @@
+.list-group-item {
+  background-color: #0f1765;
+  color: #fff;
+}
+
+.list-group-item:hover {
+  background-color: #fff;
+  color: #0f1765;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.active {
+  z-index: 2;
+  color: #0f1765;
+  background-color: #fff;
+  border-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.navbar .offcanvas {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  transition: all 0.30s ease-in-out;
+}
+
+a {
+  cursor: pointer;
+}
+
+.offcanvas-body {
+  padding: 2rem 1rem;
+}
+
+li {
+  --mdb-gutter-x: 0rem;
+    list-style-type: none;
+    margin-top: 0rem;
+}
+
+.dropdown-menu {
+  background-color: rgba(255, 255, 255, 0);
+  min-width: 23rem;
+  box-shadow: 0 0px 0px 0px rgb(0 0 0 / 0%), 0 0px 0px 0px rgb(0 0 0 / 0%);
+  --mdb-gutter-x: 0rem;
+}

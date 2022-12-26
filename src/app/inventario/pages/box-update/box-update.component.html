@@ -1,0 +1,71 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Agregar producto</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Cerrar"
+    (click)="modalRef.close()"
+  ></button>
+</div>
+<form
+  autocomplete="off"
+  [formGroup]="miFormulario"
+  (ngSubmit)="boxUpdate()"
+>
+  <div class="modal-body">
+    <div class="row mb-5 mt-3 ms-3 me-3">
+      <mdb-form-control>
+        <input
+          mdbValidate
+          mdbInput
+          type="text"
+          class="form-control"
+          formControlName="barcode"
+          required
+        />
+        <label mdbLabel class="form-label">Barcode</label>
+        <mdb-error *ngIf="campoNoValido('barcode')">
+          {{ barcodeErrorMsg }}
+        </mdb-error>
+      </mdb-form-control>
+    </div>
+    <div class="row mb-5 ms-3 me-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Producto</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="producto_id"
+          [matAutocomplete]="auto"
+          (input)="getsearch()"
+          required
+        />
+        <mat-autocomplete
+          autoActiveFirstOption
+          #auto="matAutocomplete"
+          (optionSelected)="optionSelected( $event )"
+        >
+          <mat-option *ngFor="let prod of products" [value]="prod">
+            {{ prod.nombre }}
+          </mat-option>
+          <mat-option value="" *ngIf="products.length === 0 && termino.trim().length > 0">
+            No se encontro el producto con la referencia ingresada
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error> El campo producto es obligatorio </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
+      Cerrar
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="miFormulario.invalid || miFormulario.pending"
+    >
+      Guardar
+    </button>
+  </div>
+</form>

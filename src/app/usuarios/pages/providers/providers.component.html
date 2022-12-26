@@ -1,0 +1,106 @@
+<app-navbar [namePage]="namePage"></app-navbar>
+
+<div
+  class="d-flex align-items-center justify-content-center"
+  style="height: 100vh"
+>
+  <div
+    class="card w-100 ms-sm-5 ms-md-5 ms-lg-5 me-sm-5 me-md-5 me-lg-5 mt-sm-5 mt-md-5 mt-lg-5"
+  >
+    <div class="card-body">
+      <div class="row mb-sm-2 mb-md-2 mb-lg-2">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="float-start">
+            <mdb-form-control>
+              <input
+                mdbInput
+                type="text"
+                class="form-control"
+                #txtSearch
+                (keyup)="onSearchProvider(txtSearch.value)"
+              />
+              <label mdbLabel class="form-label" for="form1">
+                Buscar usuario &nbsp;
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </label>
+            </mdb-form-control>
+          </div>
+          <div class="float-end">
+            <button class="btn btn-primary" (click)="openModal()">
+              Agregar proveedor
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col-sm-12 col-md-12 col-lg-12">#</th>
+                  <th scope="col-sm-12 col-md-12 col-lg-12">Nombre</th>
+                  <th scope="col-sm-12 col-md-12 col-lg-12">RFC</th>
+                  <th scope="col-sm-12 col-md-12 col-lg-12">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let p of provider | filtroProviders : page : search;
+                    let i = index
+                  "
+                >
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td>{{ p.nombre }}</td>
+                  <td>{{ p.rfc }}</td>
+                  <td>
+                    <div mdbDropdown class="dropdown">
+                      <button
+                        class="btn btn-primary dropdown-toggle"
+                        type="button"
+                        id="dropdownMenuButton"
+                        aria-expanded="false"
+                        mdbDropdownToggle
+                      >
+                        <i class="fa-solid fa-gears fa-2x"></i>
+                      </button>
+                      <ul
+                        mdbDropdownMenu
+                        class="dropdown-menu"
+                        aria-labelledby="dropdownMenuButton"
+                      >
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            (click)="openModalUpdate(p.id)"
+                          >
+                            <div class="text-primary">
+                              <i class="mx-3 fa-solid fa-pen-to-square"></i>
+                              Editar
+                            </div>
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            (click)="deleteProvider(p.id)"
+                          >
+                            <div class="text-danger">
+                              <i class="mx-3 fa-solid fa-trash"></i>
+                              Eliminar
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

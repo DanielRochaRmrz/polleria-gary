@@ -1,0 +1,90 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Agregar usuario</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Cerrar"
+    (click)="modalRef.close()"
+  ></button>
+</div>
+<form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="userRegister()">
+  <div class="modal-body">
+    <div class="row mb-5 mt-3 ms-3 me-3">
+      <mdb-form-control>
+        <input
+          mdbValidate
+          mdbInput
+          type="text"
+          class="form-control"
+          formControlName="nombre"
+          required
+        />
+        <label mdbLabel class="form-label">Nombre</label>
+        <mdb-error *ngIf="campoNoValido('nombre')">
+          El campo usuario es obligatorio
+        </mdb-error>
+      </mdb-form-control>
+    </div>
+    <div class="row mb-5 ms-3 me-3">
+      <mdb-form-control>
+        <input
+          mdbValidate
+          mdbInput
+          type="text"
+          class="form-control"
+          formControlName="usuario"
+          required
+        />
+        <label mdbLabel class="form-label">Usuario</label>
+        <mdb-error *ngIf="campoNoValido('usuario')">
+          {{ usuarioErrorMsg }}
+        </mdb-error>
+      </mdb-form-control>
+    </div>
+    <div class="row mb-5 ms-3 me-3">
+      <mdb-form-control>
+        <input
+          mdbValidate
+          mdbInput
+          type="password"
+          class="form-control"
+          formControlName="password"
+          required
+        />
+        <label mdbLabel class="form-label">Contraseña</label>
+        <mdb-error *ngIf="campoNoValido('password')">
+          {{ getpasswordMsg }}
+        </mdb-error>
+      </mdb-form-control>
+    </div>
+    <div class="row mb-5 ms-3 me-3">
+      <mdb-form-control>
+        <input
+          mdbValidate
+          mdbInput
+          type="password"
+          class="form-control"
+          formControlName="password_confirmation"
+          required
+        />
+
+        <label mdbLabel class="form-label">Confirmar contraseña</label>
+        <mdb-error *ngIf="campoNoValido('password_confirmation')">
+          {{ getPassConfirmMsg }}
+        </mdb-error>
+      </mdb-form-control>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
+      Cerrar
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="miFormulario.invalid || miFormulario.pending"
+    >
+      Guardar
+    </button>
+  </div>
+</form>

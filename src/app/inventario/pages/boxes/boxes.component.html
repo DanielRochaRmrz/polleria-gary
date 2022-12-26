@@ -1,0 +1,129 @@
+<app-navbar [namePage]="namePage"></app-navbar>
+
+<div
+  class="d-flex align-items-center justify-content-center"
+  style="height: 100vh"
+>
+  <div
+    class="card w-100 ms-sm-5 ms-md-5 ms-lg-5 me-sm-5 me-md-5 me-lg-5 mt-sm-5 mt-md-5 mt-lg-5"
+  >
+    <div class="card-body">
+      <div class="row mb-sm-2 mb-md-2 mb-lg-2">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="float-start">
+            <mdb-form-control>
+              <input
+                mdbInput
+                type="text"
+                class="form-control"
+                #txtSearch
+                (keyup)="onSearchBox(txtSearch.value)"
+              />
+              <label mdbLabel class="form-label" for="form1"
+                >Buscar caja</label
+              >
+            </mdb-form-control>
+          </div>
+          <div class="float-end">
+            <button class="btn btn-primary" (click)="openModal()">
+              Agregar caja
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col-sm-12 col-md-12 col-lg-12">#</th>
+                  <th scope="col-sm-12 col-md-12 col-lg-12">Barcode</th>
+                  <th scope="col-sm-12 col-md-12 col-lg-12">Stock cajas</th>
+                  <th scope="col-sm-12 col-md-12 col-lg-12">Stock tapas</th>
+                  <th scope="col-sm-12 col-md-12 col-lg-12">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let box of boxes | filtroBoxes : page : search;
+                    let i = index
+                  "
+                >
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td>{{ box.barcode }}</td>
+                  <td>{{ box.stock_cajas }}</td>
+                  <td>{{ box.stock_tapas }}</td>
+                  <td>
+                    <div mdbDropdown class="dropdown">
+                      <button
+                        class="btn btn-primary dropdown-toggle"
+                        type="button"
+                        id="dropdownMenuButton"
+                        aria-expanded="false"
+                        mdbDropdownToggle
+                      >
+                        <i class="fa-solid fa-gears fa-2x"></i>
+                      </button>
+                      <ul
+                        mdbDropdownMenu
+                        class="dropdown-menu"
+                        aria-labelledby="dropdownMenuButton"
+                      >
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            (click)="openModalUpdate(box.id)"
+                          >
+                            <div class="text-primary">
+                              <i class="mx-3 fa-solid fa-pen-to-square"></i>
+                              Editar
+                            </div>
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            (click)="deleteBox(box.id)"
+                          >
+                            <div class="text-danger">
+                              <i class="mx-3 fa-solid fa-trash"></i>
+                              Eliminar
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <hr class="hr hr-blurry" />
+      <div class="container px-4 text-end">
+        <div class="row gx-5">
+          <div class="col">
+            <div class="p-3">
+              <button class="btn btn-outline-primary" (click)="prevPage()">
+                Anteriores
+              </button>
+              &nbsp;
+              <button
+                class="btn btn-outline-primary"
+                (click)="nextPage()"
+                [disabled]="
+                  (boxes | filtroBoxes : page : search).length === 0
+                "
+              >
+                Siguientes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
