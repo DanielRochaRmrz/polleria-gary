@@ -1,4 +1,4 @@
-<nav class="navbar bg-primary fixed-top">
+<nav class="navbar bg-primary">
   <div class="container-fluid">
     <button
       class="navbar-toggler bg-secondary"
@@ -91,10 +91,18 @@
               </li>
             </ul>
           </li>
-          <a class="list-group-item px-3 border-0 my-1 rounded">
+          <a
+            class="list-group-item px-3 border-0 my-1 rounded"
+            [ngClass]="namePage === 'ENTRADA' ? active : ''"
+            (click)="entry()"
+          >
             <i class="fa-sharp fa-solid fa-box mx-3"></i> Entrada
           </a>
-          <a href="null" class="list-group-item px-3 border-0 my-1 rounded">
+          <a
+            class="list-group-item px-3 border-0 my-1 rounded"
+            [ngClass]="namePage === 'SALIDA' ? active : ''"
+            (click)="output()"
+          >
             <i class="fa-solid fa-box-open mx-3"></i> Salida
           </a>
           <a

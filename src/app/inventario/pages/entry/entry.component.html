@@ -1,1 +1,135 @@
-<p>entry works!</p>
+<app-navbar [namePage]="namePage"></app-navbar>
+
+<div class="d-flex align-items-center justify-content-center mt-5">
+  <div
+    class="card w-75 ms-sm-5 ms-md-5 ms-lg-5 me-sm-5 me-md-5 me-lg-5 mt-sm-5 mt-md-5 mt-lg-5"
+  >
+  <form autocomplete="off" [formGroup]="miFormulario">
+    <div class="card-body">
+      <div class="row mb-sm-2 mb-md-2 mb-lg-2">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="text-sm-center float-md-end">
+            <mdb-form-control>
+              <input
+                mdbInput
+                type="text"
+                id="formControlDefault"
+                class="form-control"
+                formControlName="barcode"
+                (keyup)="addBoxOrProduct()"
+              />
+              <label mdbLabel class="form-label" for="formControlDefault"
+                >Registrar producto</label
+              >
+            </mdb-form-control>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="table-responsive table-hover text-nowrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Kilos</th>
+                  <th scope="col">Costo por kilo</th>
+                  <th scope="col">Subtotal</th>
+                  <th scope="col">Total de cajas</th>
+                  <th scope="col">Total tapas</th>
+                </tr>
+              </thead>
+
+                  <tbody formArrayName="details">
+                    <tr *ngFor="let detail of detailsArr.controls; let i = index" [formGroupName]="i">
+                      <th scope="row">123456789</th>
+                      <td>
+                        <mdb-form-control class="text-nowrap">
+                          <input
+                            mdbInput
+                            type="text"
+                            id="form1"
+                            class="form-control"
+                            formControlName="kilos"
+                          />
+                          <label mdbLabel class="form-label" for="form1"
+                            >kilo</label
+                          >
+                        </mdb-form-control>
+                      </td>
+                      <td>
+                        <mdb-form-control>
+                          <input
+                            mdbInput
+                            type="text"
+                            id="form1"
+                            class="form-control"
+                            formControlName="costo_kilo"
+                          />
+                          <label mdbLabel class="form-label" for="form1"
+                            >Costo por kilo</label
+                          >
+                        </mdb-form-control>
+                      </td>
+                      <td>
+                        <mdb-form-control>
+                          <input
+                            mdbInput
+                            type="text"
+                            id="form1"
+                            class="form-control"
+                            formControlName="subtotal"
+                          />
+                          <label mdbLabel class="form-label" for="form1"
+                            >Subtotal</label
+                          >
+                        </mdb-form-control>
+                      </td>
+                      <td>
+                        <mdb-form-control>
+                          <input
+                            mdbInput
+                            type="text"
+                            id="form1"
+                            class="form-control"
+                            formControlName="total_cajas"
+                          />
+                          <label mdbLabel class="form-label" for="form1"
+                            >Total de cajas</label
+                          >
+                        </mdb-form-control>
+                      </td>
+                      <td>
+                        <mdb-form-control>
+                          <input
+                            mdbInput
+                            type="text"
+                            id="form1"
+                            class="form-control"
+                            formControlName="total_tapas"
+                          />
+                          <label mdbLabel class="form-label" for="form1"
+                            >Total tapas</label
+                          >
+                        </mdb-form-control>
+                      </td>
+                    </tr>
+                  </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <hr class="hr hr-blurry" />
+      <div class="container px-4 text-end">
+        <div class="row gx-5">
+          <div class="col">
+            <div class="text-center">
+              <button class="btn btn-primary">Agregar usuario</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>

@@ -82,6 +82,16 @@ export class ProvidersComponent implements OnInit {
     });
   }
 
+  nextPage() {
+    this.page += 5;
+  }
+
+  prevPage() {
+    if ( this.page > 0 ) {
+      this.page -= 5;
+    }
+  }
+
   onSearchProvider( search: string  ) {
     this.page = 0;
     this.search = search;

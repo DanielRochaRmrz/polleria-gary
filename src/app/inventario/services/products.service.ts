@@ -58,6 +58,21 @@ export class ProductsService {
     );
   }
 
+  getProductBarcode(barcode: string): Observable<GetProduct> {
+    const url = `${this.baseUrl}/product-show-barcode/${barcode}`;
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${localStorage.getItem('token') || ''}`
+    );
+
+    return this.http.get<GetProduct>(url, { headers }).pipe(
+      map((resp) => {
+        return resp
+      }),
+      catchError(err => of(err.error))
+    );
+  }
+
   updateProduct(product: any, id_product: number): Observable<GetProduct> {
     const url = `${this.baseUrl}/product-update/${id_product}`;
     const body = product;

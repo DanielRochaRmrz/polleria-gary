@@ -8,6 +8,7 @@ import { ProductsService } from '../../services/products.service';
 
 import { Provider } from '../../../usuarios/interfaces/providers.interface';
 import { Producto } from '../../interfaces/products.interface';
+import { BarcodeUpdateValidatorService } from 'src/app/shared/validator/barcode-update-validator.service';
 
 @Component({
   selector: 'app-product-update',
@@ -17,7 +18,7 @@ import { Producto } from '../../interfaces/products.interface';
 export class ProductUpdateComponent implements OnInit {
   miFormulario: FormGroup = this.fb.group({
     producto_id: ['', [Validators.required]],
-    barcode: ['', [Validators.required]],
+    barcode: ['', [Validators.required], [this.barcordeValid]],
     nombre: ['', [Validators.required]],
     costo_kilo: ['', [Validators.required, Validators.min(1)]],
   });
@@ -55,10 +56,13 @@ export class ProductUpdateComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private productsService: ProductsService,
+    private barcordeValid: BarcodeUpdateValidatorService,
     public modalRef: MdbModalRef<ProductUpdateComponent>
   ) {}
 
   ngOnInit(): void {
+    localStorage.setItem('id_producto', this.id_product.toString());
+
     this.productsService.getProduct(this.id_product).subscribe(product => {
       this.product = product.product;
       this.miFormulario.get('barcode')?.setValue(this.product.barcode);

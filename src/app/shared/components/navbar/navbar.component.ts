@@ -44,6 +44,14 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl('/inventory/boxes');
   }
 
+  entry() {
+    this.router.navigateByUrl('/inventory/entry');
+  }
+
+  output() {
+    this.router.navigateByUrl('/inventory/boxes');
+  }
+
   logout() {
     localStorage.clear();
     this.router.navigateByUrl('/auth');

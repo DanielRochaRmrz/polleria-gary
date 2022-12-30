@@ -33,8 +33,6 @@ export class ProductsComponent implements OnInit {
   loadProducts() {
     this.productsService.getProducts().subscribe(resp => {
       this.products = resp.products;
-      console.log('products', this.products);
-
    });
   }
 

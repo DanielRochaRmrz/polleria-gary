@@ -18,7 +18,7 @@ import { Caja } from '../../interfaces/boxes.interfaces';
 })
 export class BoxUpdateComponent implements OnInit {
   miFormulario: FormGroup = this.fb.group({
-    barcode: ['', [Validators.required], []],
+    barcode: ['', [Validators.required], [this.barcodeValidator]],
     producto_id: ['', [Validators.required]],
   });
 

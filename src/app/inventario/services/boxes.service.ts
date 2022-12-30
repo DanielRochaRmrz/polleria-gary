@@ -58,6 +58,21 @@ export class BoxesService {
     );
   }
 
+  getBoxBarcode(barcode: string): Observable<GetBox> {
+    const url = `${this.baseUrl}/box-show-barcode/${barcode}`;
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${localStorage.getItem('token') || ''}`
+    );
+
+    return this.http.get<GetBox>(url, { headers }).pipe(
+      map((resp) => {
+        return resp
+      }),
+      catchError(err => of(err.error))
+    );
+  }
+
   updateBox(box: any, id_box: number): Observable<GetBox> {
     const url = `${this.baseUrl}/box-update/${id_box}`;
     const body = box;
