@@ -1,16 +1,6 @@
 <nav class="navbar bg-primary">
-  <div class="container-fluid">
-    <button
-      class="navbar-toggler bg-secondary"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#offcanvasNavbar"
-      aria-controls="offcanvasNavbar"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <span
-      class="navbar-brand mb-0 h1 position-absolute top-20 start-50 text-secondary"
+ <span
+      class="navbar-brand  h1 text-secondary  center-text"
       >{{ namePage }}</span
     >
     <div
@@ -23,13 +13,25 @@
         <h5 class="offcanvas-title text-secondary" id="offcanvasNavbarLabel">
           <i class="fa-solid fa-user mx-3"></i> {{ usuario.usuario }}
         </h5>
-        <button
+        <!-- <button
           type="button"
-          class="btn-close bg-secondary"
+          class="btn-styles btn-close"
           data-bs-dismiss="offcanvas"
-          aria-label="Close"
-        ></button>
+        ><i class="fa-solid fa-times fa-2xl"></i>
+        aria-controls="offcanvasNavbar"
+      </button> -->
+          <button
+      class="navbar-toggler btn-styles"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasNavbar"
+    
+    >
+      <span ><i class="fa-solid fa-times fa-2xl"></i></span>
+    </button>
       </div>
+      <div class="hr-line"></div>
+      <!-- <hr> -->
       <div class="offcanvas-body">
         <div class="list-group row gy-4">
           <a
@@ -114,5 +116,13 @@
         </div>
       </div>
     </div>
-  </div>
+
 </nav>
+  <button
+      class="navbar-toggler  btn-styles btn-open"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasNavbar"
+    >
+      <i class="fa-solid fa-bars fa-xl"></i>
+    </button>
