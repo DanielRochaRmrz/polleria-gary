@@ -107,3 +107,23 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 table {
   margin-top: 2rem;
 }
+
+.btn{
+  cursor: pointer;
+}
+
+.btn-primary:hover{
+  cursor: pointer;
+  background-color: #444b91;
+  border-color: #444b91;
+}
+
+.btn-primary:active:focus {
+  color: #ffffff; 
+  background-color: #0f1765; 
+  border-color: #0f1765;
+}
+
+.btn-outline-primary:hover {
+  background-color: #eceaea;
+}
