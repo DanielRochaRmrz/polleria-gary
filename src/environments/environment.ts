@@ -4,7 +4,7 @@
 
 export const environment = {
   production: true,
-  baseUrl: 'http://localhost:5600/polleria-test/api'
+  baseUrl: 'http://localhost/polleria/api'
 };
 
 /*
