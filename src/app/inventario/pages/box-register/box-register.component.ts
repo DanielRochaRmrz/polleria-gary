@@ -44,7 +44,15 @@ export class BoxRegisterComponent implements OnInit {
     public modalRef: MdbModalRef<BoxRegisterComponent>
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadProducts();
+  }
+
+  loadProducts() {
+    this.productsService.getProducts().subscribe(resp => {
+      this.products = resp.products;
+   });
+  }
 
   getsearch() {
     this.termino = this.miFormulario.get('producto_id')?.value;
@@ -72,7 +80,6 @@ export class BoxRegisterComponent implements OnInit {
   }
 
   boxRegister() {
-    this.miFormulario.get('producto_id')?.setValue(this.productID);
     const box = this.miFormulario.value;
     this.boxesServices.boxRegister(box).subscribe((resp) => {
       if (resp.status === true) {

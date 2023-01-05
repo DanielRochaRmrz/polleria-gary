@@ -2,6 +2,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { NgxPrintModule } from 'ngx-print';
+
 import { InventarioRoutingModule } from './inventario-routing.module';
 
 import { MaterialModule } from '../material.module';
@@ -22,6 +24,7 @@ import { ProductsComponent } from './pages/products/products.component';
 
 import { FiltroProductsPipe } from './pipes/filtro-products.pipe';
 import { FiltroBoxesPipe } from './pipes/filtro-boxes.pipe';
+import { TicketComponent } from './pages/ticket/ticket.component';
 
 
 
@@ -39,10 +42,12 @@ import { FiltroBoxesPipe } from './pipes/filtro-boxes.pipe';
     ProductsComponent,
     FiltroProductsPipe,
     FiltroBoxesPipe,
+    TicketComponent,
   ],
   imports: [
     CommonModule,
     InventarioRoutingModule,
+    NgxPrintModule,
     MaterialModule,
     MdbootstrapModule,
     SharedModule,

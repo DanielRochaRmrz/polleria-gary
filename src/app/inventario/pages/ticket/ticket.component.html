@@ -1,0 +1,68 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Entradas</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="modalRef.close()"
+  ></button>
+</div>
+<div class="modal-body">
+  <div id="print-section">
+    <div class="ticket">
+      <p class="title text-center fw-bold">
+        POLLERIA GARCIA <br /> PONTIGFICA, LEÓN GTO. <br /> {{ date | date: 'dd  MMMM y, h:mm:ss a' }}
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th class="producto text-center">PRODUCTO</th>
+            <th class="kilos text-end">KILOS</th>
+            <th class="costo text-end">COSTO</th>
+            <th class="importe text-end">IMPORTE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let d of details; let i = index">
+            <tr>
+              <td class="producto text-center fw-bold">{{ d.barcode }}</td>
+              <td class="kilos text-end fw-bold">{{ d.kilos }}</td>
+              <td class="costo text-end fw-bold">{{ d.costo_kilo | currency:"MXN":"symbol" }}</td>
+              <td class="importe text-end fw-bold">{{ d.subtotal | currency:"MXN":"symbol" }}</td>
+            </tr>
+            <ng-container *ngFor="let de of detailsExist; let i = index">
+              <tr *ngIf="d.barcode === de.barcode">
+                <td class="producto text-center">-</td>
+                <td class="kilos text-end">{{ de.kilos }}</td>
+                <td class="costo text-end">{{ de.costo_kilo | currency:"MXN":"symbol" }}</td>
+                <td class="importe text-end">{{ de.subtotal | currency:"MXN":"symbol" }}</td>
+              </tr>
+            </ng-container>
+          </ng-container>
+          <tr class="total">
+            <td></td>
+            <td></td>
+            <td class="producto text-center fw-bold">TOTAL:</td>
+            <td class="kilos text-end fw-bold">{{ detailsTotal | currency:"MXN":"symbol" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="container text-center">
+    <button
+      class="btn btn-primary"
+      [useExistingCss]="true"
+      printSectionId="print-section"
+      ngxPrint
+    >
+      Imprimir ticket
+    </button>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
+      Cerrar
+    </button>
+  </div>
+</div>

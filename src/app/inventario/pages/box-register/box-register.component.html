@@ -32,26 +32,12 @@
     <div class="row mb-5 ms-3 me-3">
       <mat-form-field appearance="outline">
         <mat-label>Producto</mat-label>
-        <input
-          type="text"
-          matInput
-          formControlName="producto_id"
-          [matAutocomplete]="auto"
-          (input)="getsearch()"
-          required
-        />
-        <mat-autocomplete
-          autoActiveFirstOption
-          #auto="matAutocomplete"
-          (optionSelected)="optionSelected( $event )"
-        >
-          <mat-option *ngFor="let prod of products" [value]="prod">
+        <mat-select formControlName="producto_id"required>
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let prod of products" [value]="prod.id">
             {{ prod.nombre }}
           </mat-option>
-          <mat-option value="" *ngIf="products.length === 0 && termino.trim().length > 0">
-            No se encontro el producto con la referencia ingresada
-          </mat-option>
-        </mat-autocomplete>
+        </mat-select>
         <mat-error> El campo producto es obligatorio </mat-error>
       </mat-form-field>
     </div>

@@ -1,14 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+
+import jsPDF from "jspdf";
+import autoTable from 'jspdf-autotable'
 import Swal from 'sweetalert2';
+
+import { TicketComponent } from '../ticket/ticket.component';
 
 import { BoxesService } from './../../services/boxes.service';
 import { ProductsService } from '../../services/products.service';
+import { EntryService } from '../../services/entry.service';
 
 import { Caja } from '../../interfaces/boxes.interfaces';
 import { Producto } from '../../interfaces/products.interface';
-import { EntryService } from '../../services/entry.service';
 
 @Component({
   selector: 'app-entry',
@@ -17,6 +23,7 @@ import { EntryService } from '../../services/entry.service';
 })
 export class EntryComponent implements OnInit {
   public namePage: string = 'ENTRADA';
+  public modalRef: MdbModalRef<TicketComponent> | null = null;
 
   ls = localStorage;
 
@@ -43,14 +50,17 @@ export class EntryComponent implements OnInit {
     private fb: FormBuilder,
     private boxesService: BoxesService,
     private entryService: EntryService,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private modalService: MdbModalService
   ) {}
 
   ngOnInit(): void {}
 
   getBoxOrProduct() {
-    const barcodeInvalid = this.miFormulario.get('barcode')?.value;
-    if (barcodeInvalid.trim().length === 0) {
+    const barcodeInvalid = this.miFormulario.get('barcode')?.invalid;
+    console.log(barcodeInvalid);
+
+    if (barcodeInvalid) {
       return;
     }
 
@@ -82,6 +92,8 @@ export class EntryComponent implements OnInit {
     const { value: kilos } = await Swal.fire({
       title: 'Kilos',
       input: 'number',
+      confirmButtonColor: '#0f1765',
+      confirmButtonText: 'Ingresar',
       inputPlaceholder: 'Ingrese los kilos',
       inputValidator: (value) => {
         return new Promise((resolve) => {
@@ -108,8 +120,8 @@ export class EntryComponent implements OnInit {
         kilos       : Number(kilos),
         costo_kilo  : this.product.costo_kilo,
         subtotal    : Number(subtotal),
-        total_cajas : Number(this.box.stock_cajas) + 1,
-        total_tapas : Number(this.box.stock_tapas) + 1,
+        total_cajas : 1,
+        total_tapas : 1,
         box_id      : this.box.id,
         product_id : this.product.id,
       };
@@ -138,6 +150,8 @@ export class EntryComponent implements OnInit {
 
           // Actualizar detalles con los nuevos totales
           this.ls.setItem('details', JSON.stringify(getDetails));
+
+          this.miFormulario.reset();
           return;
         }
       }
@@ -148,6 +162,8 @@ export class EntryComponent implements OnInit {
 
         getDetailsExist.push(details);
         this.ls.setItem('detailsExist', JSON.stringify(getDetailsExist));
+
+        this.miFormulario.reset();
         return;
       }
     }
@@ -157,6 +173,8 @@ export class EntryComponent implements OnInit {
     const { value: kilos } = await Swal.fire({
       title: 'Kilos',
       input: 'number',
+      confirmButtonColor: '#0f1765',
+      confirmButtonText: 'Ingresar',
       inputPlaceholder: 'Ingrese los kilos',
       inputValidator: (value) => {
         return new Promise((resolve) => {
@@ -209,6 +227,8 @@ export class EntryComponent implements OnInit {
 
           // Actualizar detalles con los nuevos totales
           this.ls.setItem('details', JSON.stringify(getDetails));
+
+          this.miFormulario.reset();
           return;
         }
       }
@@ -220,6 +240,7 @@ export class EntryComponent implements OnInit {
         getDetailsExist.push(details);
         this.ls.setItem('detailsExist', JSON.stringify(getDetailsExist));
 
+        this.miFormulario.reset();
         return;
       }
     }
@@ -281,6 +302,21 @@ export class EntryComponent implements OnInit {
   }
 
   ticketRegister() {
+
+    if(!this.details.length) {
+      Swal.fire({
+        title: 'Info',
+        text: 'No hay mercancía por ingresar',
+        icon: 'info',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#0f1765',
+        customClass: {
+          container: 'my-swal',
+        },
+      });
+      return;
+    }
+
     const ticket = {
       tipo: 1,
       total: this.detailsTotal,
@@ -299,6 +335,11 @@ export class EntryComponent implements OnInit {
             container: 'my-swal',
           },
         }).then(() => {
+          this.modalRef = this.modalService.open(TicketComponent);
+          this.modalRef.onClose.subscribe((msg: any) => {
+            this.ls.removeItem('details');
+            this.ls.removeItem('detailsExist');
+          });
         });
       } else {
         Swal.fire({
@@ -314,4 +355,84 @@ export class EntryComponent implements OnInit {
       }
     });
   }
+
+  async downloadAsPDF() {
+
+
+
+
+      // const checkData = checklist.data;
+      // const listA = checkData.actividades;
+      // const actividades = [];
+      // listA.map((c) => {
+      //   const data = [c.activity, c.completed, c.accountable, c.note];
+      //   actividades.push(data);
+      // });
+
+      const head = [
+        ["Actividades", "Completada", "Responsable", "Observaciones"],
+      ];
+      const data = [
+        {
+          barcode: "1",
+          kilos: 30,
+          costo_kilo: 80,
+          subtotal: 2400,
+        },
+        {
+          barcode: "2",
+          kilos: 70,
+          costo_kilo: 80,
+          subtotal: 5600,
+        }
+      ];
+
+      const doc = new jsPDF();
+      doc.setTextColor("#2c3e50");
+      doc.text("Entrada", 100, 20, { align: "center" });
+      autoTable(doc, {
+        head: head,
+        body: data,
+        startY: 40,
+        headStyles: {
+          halign: "center",
+          lineColor: [44, 62, 80],
+          fillColor: [44, 62, 80],
+        },
+        styles: {
+          overflow: "linebreak",
+          cellWidth: "wrap",
+          halign: "justify",
+          fontSize: 10,
+          lineColor: 100,
+          lineWidth: 0.25,
+        },
+        columnStyles: {
+          0: { halign: "left", cellWidth: "auto" },
+          1: { halign: "center", cellWidth: "auto" },
+          2: { halign: "center", cellWidth: "auto" },
+          3: { halign: "left", cellWidth: "auto" },
+        },
+        theme: "striped",
+        pageBreak: "auto",
+        tableWidth: "auto",
+        showHead: "everyPage",
+        showFoot: "everyPage",
+        tableLineWidth: 0,
+        tableLineColor: 200,
+        margin: { top: 30 },
+      });
+
+      const pdfOutput = doc.output();
+
+      let buffer = new ArrayBuffer(pdfOutput.length);
+      let array = new Uint8Array(buffer);
+      for (var i = 0; i < pdfOutput.length; i++) {
+        array[i] = pdfOutput.charCodeAt(i);
+      }
+
+      doc.save();
+
+  }
+
 }

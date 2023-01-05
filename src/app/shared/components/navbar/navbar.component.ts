@@ -49,7 +49,7 @@ export class NavbarComponent implements OnInit {
   }
 
   output() {
-    this.router.navigateByUrl('/inventory/boxes');
+    this.router.navigateByUrl('/inventory/output');
   }
 
   logout() {

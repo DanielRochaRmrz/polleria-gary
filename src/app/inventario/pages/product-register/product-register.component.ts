@@ -61,7 +61,16 @@ export class ProductRegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadProviders()
    }
+
+   loadProviders() {
+    this.providerservice.getProviders().subscribe( resp => {
+      this.providers = resp.providers;
+      console.log('provider -->', this.providers);
+
+    });
+  }
 
   getsearch() {
     this.termino = this.miFormulario.get('proveedor_id')?.value;
@@ -89,7 +98,6 @@ export class ProductRegisterComponent implements OnInit {
   }
 
   productRegister() {
-    this.miFormulario.get('proveedor_id')?.setValue(this.providerID);
     console.log(this.miFormulario.value);
     const product = this.miFormulario.value;
     this.productsService.productRegister(product).subscribe((resp) => {

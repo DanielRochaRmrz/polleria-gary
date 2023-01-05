@@ -15,15 +15,13 @@ export class LoginComponent implements OnInit {
 
   miFormulario: FormGroup = this.fb.group({
     usuario: ['', [ Validators.required ]],
-    password: ['', [ Validators.required, Validators.minLength(8)]]
+    password: ['', [ Validators.required ]]
   });
 
   get getPasswordMsg(): string {
     const errors = this.miFormulario.get('password')?.errors;
     if ( errors?.['required'] ) {
       return 'La contraseña es obligatoria';
-    } else if ( errors?.['minlength'] ) {
-      return 'La contraseña debe de ser mayor a 8 caracteres';
     }
     return ''
   }
@@ -35,7 +33,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
-  
+
   campoNoValido( campo: string ) {
     return this.miFormulario.get(campo)?.invalid
             && this.miFormulario.get(campo)?.touched;

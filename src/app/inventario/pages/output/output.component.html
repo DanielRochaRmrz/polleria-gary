@@ -1,1 +1,104 @@
-<p>output works!</p>
+<app-navbar [namePage]="namePage"></app-navbar>
+<div class="container">
+  <!-- <div class="d-flex align-items-center justify-content-center mt-5">
+  <div
+    class="card w-75 ms-sm-5 ms-md-5 ms-lg-5 me-sm-5 me-md-5 me-lg-5 mt-sm-5 mt-md-5 mt-lg-5"
+  > -->
+  <div class="row mb-sm-2 mb-md-2 mb-lg-2">
+    <div class="col-sm-0 col-md-8 col-lg-8">
+      <div class="text-start">
+        <h4>Total: {{ detailsTotal | currency:"MXN":"symbol" }}</h4>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-4 col-lg-4">
+      <div class="text-sm-center text-lg-end">
+        <form autocomplete="off" [formGroup]="miFormulario">
+          <mdb-form-control>
+            <input
+              mdbInput
+              type="text"
+              id="formControlDefault"
+              class="form-control"
+              formControlName="barcode"
+              (keyup)="getBoxOrProduct()"
+            />
+            <label mdbLabel class="form-label" for="formControlDefault"
+              >Registrar producto</label
+            >
+          </mdb-form-control>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <div class="table-responsive table-hover text-nowrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" class="text-end"></th>
+              <th scope="col" class="text-end">Kilos</th>
+              <th scope="col" class="text-end">Costo por kilo</th>
+              <th scope="col" class="text-end">Subtotal</th>
+              <th scope="col" class="text-end">Total de cajas</th>
+              <th scope="col" class="text-end">Total tapas</th>
+              <th scope="col" class="text-center">Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <ng-container *ngFor="let d of details; let i = index">
+              <tr class="table-active">
+                <th class="text-center fw-bold" scope="row">{{ d.barcode }}</th>
+                <td class="text-end">{{ d.kilos }}</td>
+                <td class="text-end">{{ d.costo_kilo }}</td>
+                <td class="text-end">{{ d.subtotal }}</td>
+                <td class="text-end">{{ d.total_cajas }}</td>
+                <td class="text-end">{{ d.total_tapas }}</td>
+                <td class="text-center">
+                  <ng-container *ngIf="detailsExistBarcode(d.barcode) === 0">
+                    <button class="btn btn-danger" (click)="deleteDetails(i)">
+                      <i class="mx-1 fa-solid fa-trash"></i>
+                      Eliminar
+                    </button>
+                  </ng-container>
+                </td>
+              </tr>
+              <ng-container *ngFor="let de of detailsExist; let i = index">
+                <tr *ngIf="d.barcode === de.barcode">
+                  <th class="text-center" scope="row">-</th>
+                  <td class="text-end">{{ de.kilos }}</td>
+                  <td class="text-end">{{ de.costo_kilo }}</td>
+                  <td class="text-end">{{ de.subtotal }}</td>
+                  <td class="text-end">{{ de.total_cajas }}</td>
+                  <td class="text-end">{{ de.total_tapas }}</td>
+                  <td class="text-center">
+                    <button
+                      class="btn btn-danger"
+                      (click)="deleteDetailsExist(i, d.barcode)"
+                    >
+                      <i class="mx-1 fa-solid fa-trash"></i>
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <hr class="hr hr-blurry" />
+  <div class="container px-4 text-end">
+    <div class="row gx-5">
+      <div class="col">
+        <div class="text-center">
+          <button class="btn btn-primary" (click)="ticketRegister()">
+            Salida de mercancia
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

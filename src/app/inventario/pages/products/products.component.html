@@ -6,7 +6,7 @@
   <div
     class="card w-75 ms-sm-5 ms-md-5 ms-lg-5 me-sm-5 me-md-5 me-lg-5 mt-sm-5 mt-md-5 mt-lg-5"
   > -->
-  
+
     <div class="row mb-sm-2 mb-md-2 mb-lg-2">
       <div class="col-sm-12 col-md-12 col-lg-12">
         <div class="float-start">
@@ -40,6 +40,7 @@
                 <th scope="col-sm-12 col-md-12 col-lg-12">Nombre</th>
                 <th scope="col-sm-12 col-md-12 col-lg-12">Barcode</th>
                 <th scope="col-sm-12 col-md-12 col-lg-12">Costo por kilo</th>
+                <th scope="col-sm-12 col-md-12 col-lg-12">Stock kilos</th>
                 <th scope="col-sm-12 col-md-12 col-lg-12">Acciones</th>
               </tr>
             </thead>
@@ -54,6 +55,7 @@
                 <td>{{ product.nombre }}</td>
                 <td>{{ product.barcode }}</td>
                 <td>{{ product.costo_kilo }}</td>
+                <td>{{ product.stock_kilos }}</td>
                 <td>
                   <div mdbDropdown class="dropdown">
                     <button
@@ -123,7 +125,7 @@
         </div>
       </div>
     </div>
-  
+
 </div>
 <!-- </div>
 </div> -->

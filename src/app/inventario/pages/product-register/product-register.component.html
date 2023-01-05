@@ -63,7 +63,7 @@
       </mdb-form-control>
     </div>
     <div class="row mb-5 ms-3 me-3">
-      <mat-form-field appearance="outline">
+      <!-- <mat-form-field appearance="outline">
         <mat-label>Proveedor</mat-label>
         <input
           type="text"
@@ -85,6 +85,17 @@
             No se encontro el proveedor con la referencia ingresada
           </mat-option>
         </mat-autocomplete>
+        <mat-error> El campo proveedor es obligatorio </mat-error>
+      </mat-form-field> -->
+
+      <mat-form-field appearance="outline">
+        <mat-label>Proveedor</mat-label>
+        <mat-select formControlName="proveedor_id" required>
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let prov of providers" [value]="prov.id">
+            {{ prov.nombre }}
+          </mat-option>
+        </mat-select>
         <mat-error> El campo proveedor es obligatorio </mat-error>
       </mat-form-field>
     </div>

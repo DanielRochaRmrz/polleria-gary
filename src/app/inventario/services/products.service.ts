@@ -115,7 +115,10 @@ export class ProductsService {
         console.log(resp);
         return resp
       }),
-      catchError(err => of(err.error))
+      catchError(err => {
+        console.log(err);
+        return of(err.error);
+      })
     );
   }
 
