@@ -21,6 +21,7 @@ export class ProductRegisterComponent implements OnInit {
   miFormulario: FormGroup = this.fb.group({
     barcode: ['', [Validators.required], [this.barcodeValidator]],
     nombre: ['', [Validators.required]],
+    codigo_proveedor: ['', [Validators.required]],
     costo_kilo: ['', [Validators.required, Validators.min(1)]],
     proveedor_id: ['', [Validators.required]],
   });
@@ -37,7 +38,6 @@ export class ProductRegisterComponent implements OnInit {
 
   get costoKiloErrorMsg(): string {
     const errors = this.miFormulario.get('stock')?.errors;
-    console.log(errors);
 
     if (errors?.['required']) {
       return 'El campo costo por kilo es obligatorio';
@@ -61,14 +61,12 @@ export class ProductRegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadProviders()
+    // this.loadProviders()
    }
 
    loadProviders() {
     this.providerservice.getProviders().subscribe( resp => {
       this.providers = resp.providers;
-      console.log('provider -->', this.providers);
-
     });
   }
 
@@ -98,6 +96,10 @@ export class ProductRegisterComponent implements OnInit {
   }
 
   productRegister() {
+    if (this.miFormulario.invalid) {
+      this.miFormulario.markAllAsTouched()
+      return
+    }
     console.log(this.miFormulario.value);
     const product = this.miFormulario.value;
     this.productsService.productRegister(product).subscribe((resp) => {

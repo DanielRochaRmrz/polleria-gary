@@ -20,7 +20,7 @@
               id="formControlDefault"
               class="form-control"
               formControlName="barcode"
-              (keyup)="getBoxOrProduct()"
+              (keyup.enter)="getBoxOrProduct()"
             />
             <label mdbLabel class="form-label" for="formControlDefault"
               >Registrar producto</label
@@ -49,14 +49,14 @@
           <tbody>
             <ng-container *ngFor="let d of details; let i = index">
               <tr class="table-active">
-                <th class="text-center fw-bold" scope="row">{{ d.barcode }}</th>
+                <th class="text-center fw-bold" scope="row">{{ nameProducts[i].name_product }}</th>
                 <td class="text-end">{{ d.kilos }}</td>
                 <td class="text-end">{{ d.costo_kilo }}</td>
                 <td class="text-end">{{ d.subtotal }}</td>
                 <td class="text-end">{{ d.total_cajas }}</td>
                 <td class="text-end">{{ d.total_tapas }}</td>
                 <td class="text-center">
-                  <ng-container *ngIf="detailsExistBarcode(d.barcode) === 0">
+                  <ng-container *ngIf="detailsExistBarcode(d.product_id) === 0">
                     <button class="btn btn-danger" (click)="deleteDetails(i)">
                       <i class="mx-1 fa-solid fa-trash"></i>
                       Eliminar
@@ -65,7 +65,7 @@
                 </td>
               </tr>
               <ng-container *ngFor="let de of detailsExist; let i = index">
-                <tr *ngIf="d.barcode === de.barcode">
+                <tr *ngIf="d.product_id === de.product_id">
                   <th class="text-center" scope="row">-</th>
                   <td class="text-end">{{ de.kilos }}</td>
                   <td class="text-end">{{ de.costo_kilo }}</td>
@@ -75,7 +75,7 @@
                   <td class="text-center">
                     <button
                       class="btn btn-danger"
-                      (click)="deleteDetailsExist(i, d.barcode)"
+                      (click)="deleteDetailsExist(i, d.product_id)"
                     >
                       <i class="mx-1 fa-solid fa-trash"></i>
                       Eliminar

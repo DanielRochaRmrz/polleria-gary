@@ -63,6 +63,23 @@
       </mdb-form-control>
     </div>
     <div class="row mb-5 ms-3 me-3">
+      <mdb-form-control>
+        <input
+          mdbValidate
+          mdbInput
+          type="number"
+          class="form-control"
+          formControlName="codigo_proveedor"
+          required
+        />
+
+        <label mdbLabel class="form-label">Codigo proveedor</label>
+        <mdb-error *ngIf="campoNoValido('codigo_proveedor')">
+          El campo nombre es obligatorio
+        </mdb-error>
+      </mdb-form-control>
+    </div>
+    <div class="row mb-5 ms-3 me-3">
       <!-- <mat-form-field appearance="outline">
         <mat-label>Proveedor</mat-label>
         <input
@@ -92,8 +109,23 @@
         <mat-label>Proveedor</mat-label>
         <mat-select formControlName="proveedor_id" required>
           <mat-option>--</mat-option>
-          <mat-option *ngFor="let prov of providers" [value]="prov.id">
-            {{ prov.nombre }}
+          <mat-option value="1">
+            Sabro Pollo
+          </mat-option>
+          <mat-option value="2">
+            Nutry Pollo
+          </mat-option>
+          <mat-option value="3">
+            Rastro St. Clara
+          </mat-option>
+          <mat-option value="4">
+            Grupo Pecuario
+          </mat-option>
+          <mat-option value="5">
+            Bachoco
+          </mat-option>
+          <mat-option value="6">
+            Supollo
           </mat-option>
         </mat-select>
         <mat-error> El campo proveedor es obligatorio </mat-error>
@@ -107,7 +139,7 @@
     <button
       type="submit"
       class="btn btn-primary"
-      [disabled]="miFormulario.invalid || miFormulario.pending"
+      [disabled]="miFormulario.pending"
     >
       Guardar
     </button>

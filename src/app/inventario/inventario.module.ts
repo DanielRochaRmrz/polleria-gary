@@ -42,7 +42,7 @@ import { TicketComponent } from './pages/ticket/ticket.component';
     ProductsComponent,
     FiltroProductsPipe,
     FiltroBoxesPipe,
-    TicketComponent,
+    TicketComponent
   ],
   imports: [
     CommonModule,

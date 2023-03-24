@@ -15,6 +15,7 @@ import { EntryService } from '../../services/entry.service';
 
 import { Caja } from '../../interfaces/boxes.interfaces';
 import { Producto } from '../../interfaces/products.interface';
+import { Data } from '../../interfaces/entry.interface';
 
 @Component({
   selector: 'app-entry',
@@ -29,6 +30,9 @@ export class EntryComponent implements OnInit {
 
   box!: Caja;
   product!: Producto;
+  nameProduct!: string;
+
+  boxOrProduct!: Data;
 
   miFormulario: FormGroup = this.fb.group({
     barcode: ['', [Validators.required]],
@@ -40,6 +44,10 @@ export class EntryComponent implements OnInit {
 
   get detailsExist() {
     return JSON.parse(this.ls.getItem('detailsExist') || '[]');
+  }
+
+  get nameProducts() {
+    return JSON.parse(this.ls.getItem('nameProducts') || '[]');
   }
 
   get detailsTotal() {
@@ -58,7 +66,6 @@ export class EntryComponent implements OnInit {
 
   getBoxOrProduct() {
     const barcodeInvalid = this.miFormulario.get('barcode')?.invalid;
-    console.log(barcodeInvalid);
 
     if (barcodeInvalid) {
       return;
@@ -66,65 +73,79 @@ export class EntryComponent implements OnInit {
 
     const barcode = this.miFormulario.get('barcode')?.value;
 
-    this.boxesService.getBoxBarcode(barcode.trim()).subscribe((box) => {
-      if (box.status) {
-        this.box = box.caja;
+
+    this.entryService.getBoxOrProduct(barcode.replace(/\s+/g, '')).subscribe(( BoxOrProduct ) => {
+
+      if (BoxOrProduct.status) {
+        this.boxOrProduct = BoxOrProduct.data;
         this.productsService
-          .getProduct(this.box.producto_id)
+          .getProduct(this.boxOrProduct.id)
           .subscribe((product) => {
             this.product = product.product;
-            this.addDetailsBox();
+            if (BoxOrProduct.type === 'box') {
+              this.addDetailsBox(BoxOrProduct.kilos_caja);
+            }
+
+            if (BoxOrProduct.type === 'product') {
+              this.addDetailsProduct();
+            }
           });
       }
+      else {
+        Swal.fire({
+          title: 'Error',
+          text: 'El barcode ingresado no se encuentra registrado',
+          icon: 'error',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#0f1765',
+          customClass: {
+            container: 'my-swal',
+          },
+        });
+      }
     });
-
-    this.productsService
-      .getProductBarcode(barcode.trim())
-      .subscribe((product) => {
-        if (product.status) {
-          this.product = product.product;
-          this.addDetailsProduct()
-        }
-      });
   }
 
-  async addDetailsBox() {
-    const { value: kilos } = await Swal.fire({
-      title: 'Kilos',
-      input: 'number',
-      confirmButtonColor: '#0f1765',
-      confirmButtonText: 'Ingresar',
-      inputPlaceholder: 'Ingrese los kilos',
-      inputValidator: (value) => {
-        return new Promise((resolve) => {
-          if (value >= '0') {
-            resolve('');
-          } else {
-            resolve('El campo kilos es requerido');
-          }
-        });
-      },
-    });
-    if (kilos) {
+  async addDetailsBox(kilos: number | undefined) {
+    // const { value: kilos } = await Swal.fire({
+    //   title: 'Kilos',
+    //   input: 'number',
+    //   confirmButtonColor: '#0f1765',
+    //   confirmButtonText: 'Ingresar',
+    //   inputPlaceholder: 'Ingrese los kilos',
+    //   inputValidator: (value) => {
+    //     return new Promise((resolve) => {
+    //       if (value >= '0') {
+    //         resolve('');
+    //       } else {
+    //         resolve('El campo kilos es requerido');
+    //       }
+    //     });
+    //   },
+    // });
+    // if (kilos) {
       const getDetails = this.details;
       const getDetailsExist = this.detailsExist;
+      const getNameProducts = this.nameProducts;
 
       const existDetails = getDetails
-        .map((d: any) => d.barcode)
-        .includes(this.box.barcode);
+        .map((d: any) => d.product_id)
+        .includes(this.boxOrProduct.id);
 
-      const subtotal = Number(this.product.costo_kilo) * Number(kilos);
+      const subtotal = Number(this.boxOrProduct.costo_kilo) * Number(kilos);
 
       const details = {
-        barcode     : this.box.barcode,
         kilos       : Number(kilos),
-        costo_kilo  : this.product.costo_kilo,
-        subtotal    : Number(subtotal),
+        costo_kilo  : this.boxOrProduct.costo_kilo,
+        subtotal    : Number(subtotal.toFixed(2)),
         total_cajas : 1,
         total_tapas : 1,
-        box_id      : this.box.id,
-        product_id : this.product.id,
+        product_id : this.boxOrProduct.id,
       };
+
+      const nameProducts = {
+        name_product: this.boxOrProduct.nombre
+      }
 
       if (existDetails) {
         if (getDetailsExist) {
@@ -134,8 +155,8 @@ export class EntryComponent implements OnInit {
 
           // Consultar indice del la caja de detalles
           const getDetailsIndex = getDetails
-            .map((d: any) => d.barcode)
-            .indexOf(this.box.barcode);
+            .map((d: any) => d.product_id)
+            .indexOf(this.boxOrProduct.id);
 
           // Sumar y actulizar los datos kilos, subtotal, total, total cajas y total tapas
           const totalKilos = Number( getDetails[getDetailsIndex].kilos ) + Number(kilos);
@@ -163,10 +184,13 @@ export class EntryComponent implements OnInit {
         getDetailsExist.push(details);
         this.ls.setItem('detailsExist', JSON.stringify(getDetailsExist));
 
+        getNameProducts.push(nameProducts);
+        this.ls.setItem('nameProducts', JSON.stringify(getNameProducts));
+
         this.miFormulario.reset();
         return;
       }
-    }
+    // }
   }
 
   async addDetailsProduct() {
@@ -189,22 +213,26 @@ export class EntryComponent implements OnInit {
     if (kilos) {
       const getDetails = this.details;
       const getDetailsExist = this.detailsExist;
+      const getNameProducts = this.nameProducts;
 
       const existDetails = getDetails
-        .map((d: any) => d.barcode)
-        .includes(this.product.barcode);
+        .map((d: any) => d.product_id)
+        .includes(this.boxOrProduct.id);
 
-      const subtotal = Number(this.product.costo_kilo) * Number(kilos);
+      const subtotal = Number(this.boxOrProduct.costo_kilo) * Number(kilos);
 
       const details = {
-        barcode     : this.product.barcode,
         kilos       : Number(kilos),
-        costo_kilo  : this.product.costo_kilo,
-        subtotal    : Number(subtotal),
+        costo_kilo  : this.boxOrProduct.costo_kilo,
+        subtotal    : Number(subtotal.toFixed(2)),
         total_cajas : 0,
         total_tapas : 0,
-        product_id : this.product.id,
+        product_id : this.boxOrProduct.id,
       };
+
+      const nameProducts = {
+        name_product: this.boxOrProduct.nombre
+      }
 
       if (existDetails) {
         if (getDetailsExist) {
@@ -214,8 +242,8 @@ export class EntryComponent implements OnInit {
 
           // Consultar indice del la caja de detalles
           const getDetailsIndex = getDetails
-            .map((d: any) => d.barcode)
-            .indexOf(this.product.barcode);
+            .map((d: any) => d.product_id)
+            .indexOf(this.boxOrProduct.id);
 
           // Sumar y actulizar los datos kilos, subtotal, total, total cajas y total tapas
           const totalKilos = Number( getDetails[getDetailsIndex].kilos ) + Number(kilos);
@@ -240,35 +268,44 @@ export class EntryComponent implements OnInit {
         getDetailsExist.push(details);
         this.ls.setItem('detailsExist', JSON.stringify(getDetailsExist));
 
+        getNameProducts.push(nameProducts);
+        this.ls.setItem('nameProducts', JSON.stringify(getNameProducts));
+
         this.miFormulario.reset();
         return;
       }
     }
   }
 
-  detailsExistBarcode(barcode : string) {
-    return this.detailsExist.filter((b: any) => b.barcode === barcode).length;
+  detailsExistBarcode(product_id : number) {
+    return this.detailsExist.filter((b: any) => b.product_id === product_id).length;
   }
 
   deleteDetails(i: number) {
+
     // Eliminar de detalles. Nota: solo funciona cuando no tienes detalles existentes.
     const getDetails =  this.details;
     getDetails.splice(i, 1);
     this.ls.setItem('details', JSON.stringify(getDetails));
+
+    const getNameProducts = this.nameProducts;
+    getNameProducts.splice(i, 1);
+    this.ls.setItem('nameProducts', JSON.stringify(getNameProducts));
   }
 
-  deleteDetailsExist(i: number, barcode: string) {
+  deleteDetailsExist(i: number, product_id: number) {
     // Eliminar de detalles Existentes
     const getDetailsExist =  this.detailsExist;
     const getDetails = this.details;
+    const getNameProducts = this.nameProducts;
 
     // Consultar indice del detalle
     const getDetailsIndex = getDetails
-    .map((d: any) => d.barcode)
-    .indexOf(barcode);
+    .map((d: any) => d.product_id)
+    .indexOf(product_id);
 
     // Consultar la cantidad de la key detalles existentes que hay por barcode
-    const getDetailsBarcodeExist = getDetailsExist.filter((b: any) => b.barcode === barcode).length;
+    const getDetailsBarcodeExist = getDetailsExist.filter((b: any) => b.product_id === product_id).length;
 
     if (getDetailsBarcodeExist === 1) {
       //Si solo queda un detalle existente por barcode eliminara y actulizara la key detalles
@@ -278,6 +315,10 @@ export class EntryComponent implements OnInit {
       //Elimina el ultimo detalle exixtente y actuliza la key detailsExist
       getDetailsExist.splice(i, 1);
       this.ls.setItem('detailsExist', JSON.stringify(getDetailsExist));
+
+
+      getNameProducts.splice(i, 1);
+      this.ls.setItem('nameProducts', JSON.stringify(getNameProducts));
       return;
     }
 
@@ -317,9 +358,10 @@ export class EntryComponent implements OnInit {
       return;
     }
 
+
     const ticket = {
       tipo: 1,
-      total: this.detailsTotal,
+      total: Number(this.detailsTotal.toFixed(2)),
       details: this.details
     }
 

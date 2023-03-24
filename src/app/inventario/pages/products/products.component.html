@@ -39,6 +39,7 @@
                 <th scope="col-sm-12 col-md-12 col-lg-12">#</th>
                 <th scope="col-sm-12 col-md-12 col-lg-12">Nombre</th>
                 <th scope="col-sm-12 col-md-12 col-lg-12">Barcode</th>
+                <th scope="col-sm-12 col-md-12 col-lg-12">Proveedor</th>
                 <th scope="col-sm-12 col-md-12 col-lg-12">Costo por kilo</th>
                 <th scope="col-sm-12 col-md-12 col-lg-12">Stock kilos</th>
                 <th scope="col-sm-12 col-md-12 col-lg-12">Acciones</th>
@@ -54,6 +55,26 @@
                 <th scope="row">{{ i + 1 }}</th>
                 <td>{{ product.nombre }}</td>
                 <td>{{ product.barcode }}</td>
+                <td >
+                  <ng-container *ngIf="product.proveedor_id == 1">
+                    Sabro Pollo
+                  </ng-container>
+                  <ng-container *ngIf="product.proveedor_id == 2">
+                    Nutry Pollo
+                  </ng-container>
+                  <ng-container *ngIf="product.proveedor_id == 3">
+                    Rastro St. Clara
+                  </ng-container>
+                  <ng-container *ngIf="product.proveedor_id == 4">
+                    Grupo Pecuario
+                  </ng-container>
+                  <ng-container *ngIf="product.proveedor_id == 5">
+                    Bachoco
+                  </ng-container>
+                  <ng-container *ngIf="product.proveedor_id == 6">
+                    Supollo
+                  </ng-container>
+                </td>
                 <td>{{ product.costo_kilo }}</td>
                 <td>{{ product.stock_kilos }}</td>
                 <td>
