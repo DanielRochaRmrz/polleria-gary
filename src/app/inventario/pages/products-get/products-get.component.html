@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Agregar producto</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Cerrar"
+    (click)="modalRef.close()"
+  ></button>
+</div>
+<form
+  autocomplete="off"
+  [formGroup]="miFormulario"
+  >
+  <!-- (ngSubmit)="boxRegister()" -->
+  <div class="modal-body">
+    <div class="row mb-5 ms-3 me-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Producto</mat-label>
+        <mat-select formControlName="producto_id"required>
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let prod of products" [value]="prod.id">
+            {{ prod.nombre }}
+          </mat-option>
+        </mat-select>
+        <mat-error> El campo producto es obligatorio </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
+      Cerrar
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      (click)="close()"
+    >
+      Guardar
+    </button>
+  </div>
+</form>

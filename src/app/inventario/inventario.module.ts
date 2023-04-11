@@ -25,6 +25,7 @@ import { ProductsComponent } from './pages/products/products.component';
 import { FiltroProductsPipe } from './pipes/filtro-products.pipe';
 import { FiltroBoxesPipe } from './pipes/filtro-boxes.pipe';
 import { TicketComponent } from './pages/ticket/ticket.component';
+import { ProductsGetComponent } from './pages/products-get/products-get.component';
 
 
 
@@ -42,7 +43,8 @@ import { TicketComponent } from './pages/ticket/ticket.component';
     ProductsComponent,
     FiltroProductsPipe,
     FiltroBoxesPipe,
-    TicketComponent
+    TicketComponent,
+    ProductsGetComponent
   ],
   imports: [
     CommonModule,

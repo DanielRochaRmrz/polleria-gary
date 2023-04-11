@@ -50,9 +50,9 @@
             <ng-container *ngFor="let d of details; let i = index">
               <tr class="table-active">
                 <th class="text-center fw-bold" scope="row">{{ nameProducts[i].name_product }}</th>
-                <td class="text-end">{{ d.kilos }}</td>
-                <td class="text-end">{{ d.costo_kilo }}</td>
-                <td class="text-end">{{ d.subtotal }}</td>
+                <td class="text-end">{{ d.kilos.toFixed(2) }}</td>
+                <td class="text-end">{{ d.costo_kilo.toFixed(2) }}</td>
+                <td class="text-end">{{ d.subtotal.toFixed(2) }}</td>
                 <td class="text-end">{{ d.total_cajas }}</td>
                 <td class="text-end">{{ d.total_tapas }}</td>
                 <td class="text-center">
@@ -67,9 +67,9 @@
               <ng-container *ngFor="let de of detailsExist; let i = index">
                 <tr *ngIf="d.product_id === de.product_id">
                   <th class="text-center" scope="row">-</th>
-                  <td class="text-end">{{ de.kilos }}</td>
-                  <td class="text-end">{{ de.costo_kilo }}</td>
-                  <td class="text-end">{{ de.subtotal }}</td>
+                  <td class="text-end">{{ de.kilos.toFixed(2) }}</td>
+                  <td class="text-end"></td>
+                  <td class="text-end">{{ de.subtotal.toFixed(2) }}</td>
                   <td class="text-end">{{ de.total_cajas }}</td>
                   <td class="text-end">{{ de.total_tapas }}</td>
                   <td class="text-center">

@@ -49,6 +49,22 @@
           <input
             mdbValidate
             mdbInput
+            type="text"
+            class="form-control"
+            formControlName="codigo_proveedor"
+            required
+          />
+          <label mdbLabel class="form-label">Código proveedor</label>
+          <mdb-error *ngIf="campoNoValido('codigo_proveedor')">
+            El campo código proveedor es obligatorio
+          </mdb-error>
+        </mdb-form-control>
+      </div>
+      <div class="row mb-5 ms-3 me-3">
+        <mdb-form-control>
+          <input
+            mdbValidate
+            mdbInput
             type="number"
             class="form-control"
             formControlName="costo_kilo"
@@ -69,7 +85,7 @@
       <button
         type="submit"
         class="btn btn-primary"
-        [disabled]="miFormulario.invalid || miFormulario.pending"
+        [disabled]="miFormulario.pending"
       >
         Guardar
       </button>

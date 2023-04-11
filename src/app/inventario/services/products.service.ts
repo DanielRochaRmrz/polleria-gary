@@ -5,7 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { Products, GetProduct, Product } from '../interfaces/products.interface';
+import { Products, GetProduct, Product, GetProducts } from '../interfaces/products.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +43,7 @@ export class ProductsService {
     );
   }
 
-  getProduct(id_product: number): Observable<GetProduct> {
+  getProduct(id_product: number | undefined): Observable<GetProduct> {
     const url = `${this.baseUrl}/product-show/${id_product}`;
     const headers = new HttpHeaders().set(
       'Authorization',
@@ -51,6 +51,21 @@ export class ProductsService {
     );
 
     return this.http.get<GetProduct>(url, { headers }).pipe(
+      map((resp) => {
+        return resp
+      }),
+      catchError(err => of(err.error))
+    );
+  }
+
+  getProductByProvider(id_provider: number): Observable<GetProducts> {
+    const url = `${this.baseUrl}/product-provider/${id_provider}`;
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${localStorage.getItem('token') || ''}`
+    );
+
+    return this.http.get<GetProducts>(url, { headers }).pipe(
       map((resp) => {
         return resp
       }),

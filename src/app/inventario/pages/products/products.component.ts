@@ -46,38 +46,52 @@ export class ProductsComponent implements OnInit {
   openModalUpdate(id_product: number) {
     this.modalRefUpdate = this.modalService.open(ProductUpdateComponent, { data: { id_product } });
     this.modalRefUpdate.onClose.subscribe((msg: any) => {
+      localStorage.removeItem('id_producto');
       this.loadProducts();
     });
   }
 
   deleteProduct(id_product: number) {
-    this.productsService.deleteProduct(id_product).subscribe( resp => {
-      if ( resp.status === true ) {
-        Swal.fire({
-          title: 'Éxito',
-          text: resp.message,
-          icon: 'success',
-          confirmButtonText: 'Aceptar',
-          confirmButtonColor: '#0f1765',
-          customClass: {
-            container: 'my-swal'
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#0f1765',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '¡Sí, elimínalo!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.productsService.deleteProduct(id_product).subscribe( resp => {
+          if ( resp.status === true ) {
+            Swal.fire({
+              title: 'Éxito',
+              text: resp.message,
+              icon: 'success',
+              confirmButtonText: 'Aceptar',
+              confirmButtonColor: '#0f1765',
+              customClass: {
+                container: 'my-swal'
+              }
+            }).then( () => {
+              this.loadProducts();
+            });
+          } else {
+            Swal.fire({
+              title: 'Error',
+              text: resp.message,
+              icon: 'error',
+              confirmButtonText: 'Aceptar',
+              confirmButtonColor: '#0f1765',
+              customClass: {
+                container: 'my-swal'
+              }
+            })
           }
-        }).then( () => {
-          this.loadProducts();
-        });
-      } else {
-        Swal.fire({
-          title: 'Error',
-          text: resp.message,
-          icon: 'error',
-          confirmButtonText: 'Aceptar',
-          confirmButtonColor: '#0f1765',
-          customClass: {
-            container: 'my-swal'
-          }
-        })
-      }
 
+        });
+      }
     });
   }
 

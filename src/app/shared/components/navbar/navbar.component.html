@@ -1,128 +1,130 @@
 <nav class="navbar bg-primary">
- <span
-      class="navbar-brand  h1 text-secondary title-text"
-      >{{ namePage }}</span
-    >
-    <div
-      class="offcanvas offcanvas-start bg-primary"
-      tabindex="-1"
-      id="offcanvasNavbar"
-      aria-labelledby="offcanvasNavbarLabel"
-    >
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title text-secondary" id="offcanvasNavbarLabel">
-          <i class="fa-solid fa-user mx-3"></i> {{ usuario.usuario }}
-        </h5>
-        <!-- <button
+  <span class="navbar-brand h1 text-secondary title-text">{{ namePage }}</span>
+  <div
+    class="offcanvas offcanvas-start bg-primary"
+    tabindex="-1"
+    id="offcanvasNavbar"
+    aria-labelledby="offcanvasNavbarLabel"
+  >
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title text-secondary" id="offcanvasNavbarLabel">
+        <i class="fa-solid fa-user mx-3"></i> {{ usuario.usuario }}
+      </h5>
+      <!-- <button
           type="button"
           class="btn-styles btn-close"
           data-bs-dismiss="offcanvas"
         ><i class="fa-solid fa-times fa-2xl"></i>
         aria-controls="offcanvasNavbar"
       </button> -->
-          <button
-      class="navbar-toggler btn-styles"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#offcanvasNavbar"
-
-    >
-      <span ><i class="fa-solid fa-times fa-2xl"></i></span>
-    </button>
-      </div>
-      <div class="hr-line"></div>
-      <!-- <hr> -->
-      <div class="offcanvas-body">
-        <div class="list-group row gy-4">
-          <a
-            class="list-group-item px-3 border-0 my-1 rounded"
-            [ngClass]="namePage === 'INICIO' ? active : ''"
-            (click)="home()"
-          >
-            <i class="fa-solid fa-house-chimney mx-3"></i> Inicio
-          </a>
-          <a
-            class="list-group-item px-3 border-0 my-1 rounded"
-            [ngClass]="namePage === 'USUARIOS' ? active : ''"
-            (click)="users()"
-          >
-            <i class="fa-solid fa-user-group mx-3"></i> Usuarios
-          </a>
-          <!-- <a
+      <button
+        class="navbar-toggler btn-styles"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar"
+      >
+        <span><i class="fa-solid fa-times fa-2xl"></i></span>
+      </button>
+    </div>
+    <div class="hr-line"></div>
+    <!-- <hr> -->
+    <div class="offcanvas-body">
+      <div class="list-group row gy-4">
+        <a
+          class="list-group-item px-3 border-0 my-1 rounded"
+          [ngClass]="namePage === 'INICIO' ? active : ''"
+          (click)="home()"
+        >
+          <i class="fa-solid fa-house-chimney mx-3"></i> Inicio
+        </a>
+        <a
+          class="list-group-item px-3 border-0 my-1 rounded"
+          [ngClass]="namePage === 'USUARIOS' ? active : ''"
+          (click)="users()"
+        >
+          <i class="fa-solid fa-user-group mx-3"></i> Usuarios
+        </a>
+        <!-- <a
             class="list-group-item px-3 border-0 my-1 rounded"
             [ngClass]="namePage === 'PROVEEDORES' ? active : ''"
             (click)="providers()"
           >
             <i class="fa-solid fa-user-group mx-3"></i> Proveedores
           </a> -->
-          <li mdbDropdown class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle list-group-item px-3 border-0 my-1 rounded"
-              [ngClass]="
-                namePage === 'CAJAS' || namePage === 'PRODUCTOS' ? active : ''
-              "
-              id="navbarDropdownMenuLink"
-              role="button"
-              mdbDropdownToggle
-              aria-expanded="true"
-            >
-              <i class="fa-solid fa-box-archive mx-3"></i> Inventario
-            </a>
-            <ul
-              mdbDropdownMenu
-              class="dropdown-menu dropdown-menu-end"
-              aria-labelledby="navbarDropdownMenuLink"
-            >
-              <!-- <li>
-                <a
-                  class="list-group-item px-3 border-0 my-1 rounded"
-                  [ngClass]="namePage === 'CAJAS' ? active : ''"
-                  (click)="boxes()"
-                >
-                  <i class="fa-solid fa-box-archive mx-3"></i> Cajas
-                </a>
-              </li> -->
-              <li>
-                <a
-                  class="list-group-item px-3 border-0 my-1 rounded"
-                  [ngClass]="namePage === 'PRODUCTOS' ? active : ''"
-                  (click)="products()"
-                >
-                  <i class="fa-solid fa-box-archive mx-3"></i> Productos
-                </a>
-              </li>
-            </ul>
-          </li>
+        <!-- <li mdbDropdown class="nav-item dropdown">
           <a
-            class="list-group-item px-3 border-0 my-1 rounded"
-            [ngClass]="namePage === 'ENTRADA' ? active : ''"
-            (click)="entry()"
+            class="nav-link dropdown-toggle list-group-item px-3 border-0 my-1 rounded"
+            [ngClass]="
+              namePage === 'CAJAS' || namePage === 'PRODUCTOS' ? active : ''
+            "
+            id="navbarDropdownMenuLink"
+            role="button"
+            mdbDropdownToggle
+            aria-expanded="true"
           >
-            <i class="fa-sharp fa-solid fa-box mx-3"></i> Entrada
+            <i class="fa-solid fa-box-archive mx-3"></i> Inventario
           </a>
-          <a
-            class="list-group-item px-3 border-0 my-1 rounded"
-            [ngClass]="namePage === 'SALIDA' ? active : ''"
-            (click)="output()"
+          <ul
+            mdbDropdownMenu
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="navbarDropdownMenuLink"
           >
-            <i class="fa-solid fa-box-open mx-3"></i> Salida
-          </a>
-          <a
-            class="list-group-item px-3 border-0 my-1 rounded"
-            (click)="logout()"
-          >
-            <i class="fa-solid fa-circle-xmark mx-3"></i> Cerrar Sesión
-          </a>
-        </div>
+            <li>
+              <a
+                class="list-group-item px-3 border-0 my-1 rounded"
+                [ngClass]="namePage === 'CAJAS' ? active : ''"
+                (click)="boxes()"
+              >
+                <i class="fa-solid fa-box-archive mx-3"></i> Cajas
+              </a>
+            </li>
+            <li>
+              <a
+                class="list-group-item px-3 border-0 my-1 rounded"
+                [ngClass]="namePage === 'PRODUCTOS' ? active : ''"
+                (click)="products()"
+              >
+                <i class="fa-solid fa-box-archive mx-3"></i> Productos
+              </a>
+            </li>
+          </ul>
+        </li> -->
+        <a
+          class="list-group-item px-3 border-0 my-1 rounded"
+          [ngClass]="namePage === 'PRODUCTOS' ? active : ''"
+          (click)="products()"
+        >
+          <i class="fa-solid fa-box-archive mx-3"></i> Inventario
+        </a>
+        <a
+          class="list-group-item px-3 border-0 my-1 rounded"
+          [ngClass]="namePage === 'ENTRADA' ? active : ''"
+          (click)="entry()"
+        >
+          <i class="fa-sharp fa-solid fa-box mx-3"></i> Entrada
+        </a>
+        <a
+          class="list-group-item px-3 border-0 my-1 rounded"
+          [ngClass]="namePage === 'SALIDA' ? active : ''"
+          (click)="output()"
+        >
+          <i class="fa-solid fa-box-open mx-3"></i> Salida
+        </a>
+        <a
+          class="list-group-item px-3 border-0 my-1 rounded"
+          (click)="logout()"
+        >
+          <i class="fa-solid fa-circle-xmark mx-3"></i> Cerrar Sesión
+        </a>
       </div>
     </div>
-
+  </div>
 </nav>
-  <button
-      class="navbar-toggler  btn-styles btn-open"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#offcanvasNavbar"
-    >
-      <i class="fa-solid fa-bars fa-xl"></i>
-    </button>
+<button
+  class="navbar-toggler btn-styles btn-open"
+  type="button"
+  data-bs-toggle="offcanvas"
+  data-bs-target="#offcanvasNavbar"
+>
+  <i class="fa-solid fa-bars fa-xl"></i>
+</button>

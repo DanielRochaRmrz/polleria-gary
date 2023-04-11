@@ -32,7 +32,7 @@ export class UsersComponent implements OnInit {
 
   loadUsers() {
     this.usersService.getUsers().subscribe( resp => {
-      this.users = resp.usuario;    
+      this.users = resp.usuario;
     });
   }
 
@@ -51,33 +51,46 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(id_user: number) {
-    this.usersService.userDelete(id_user).subscribe( resp => {
-      if ( resp.status === true ) {
-        Swal.fire({
-          title: 'Éxito',
-          text: resp.message,
-          icon: 'success',
-          confirmButtonText: 'Aceptar',
-          confirmButtonColor: '#0f1765',
-          customClass: {
-            container: 'my-swal'
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#0f1765',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '¡Sí, elimínalo!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.usersService.userDelete(id_user).subscribe( resp => {
+          if ( resp.status === true ) {
+            Swal.fire({
+              title: 'Éxito',
+              text: resp.message,
+              icon: 'success',
+              confirmButtonText: 'Aceptar',
+              confirmButtonColor: '#0f1765',
+              customClass: {
+                container: 'my-swal'
+              }
+            }).then( () => {
+              this.loadUsers();
+            });
+          } else {
+            Swal.fire({
+              title: 'Error',
+              text: resp.message,
+              icon: 'error',
+              confirmButtonText: 'Aceptar',
+              confirmButtonColor: '#0f1765',
+              customClass: {
+                container: 'my-swal'
+              }
+            })
           }
-        }).then( () => {
-          this.loadUsers();
+
         });
-      } else {
-        Swal.fire({
-          title: 'Error',
-          text: resp.message,
-          icon: 'error',
-          confirmButtonText: 'Aceptar',
-          confirmButtonColor: '#0f1765',
-          customClass: {
-            container: 'my-swal'
-          }
-        })
       }
-      
     });
   }
 

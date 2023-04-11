@@ -74,8 +74,12 @@ export class UserRegisterComponent implements OnInit {
       this.miFormulario.get(campo)?.touched
     );
   }
-  
+
   userRegister() {
+    if (this.miFormulario.invalid) {
+      this.miFormulario.markAllAsTouched();
+      return;
+    }
     const user = this.miFormulario.value;
     this.usersService.userRegister(user).subscribe((resp) => {
       if ( resp.status === true ) {
@@ -106,5 +110,5 @@ export class UserRegisterComponent implements OnInit {
     })
 
   }
-  
+
 }

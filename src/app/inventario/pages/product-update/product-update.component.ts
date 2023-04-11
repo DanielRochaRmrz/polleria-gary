@@ -20,6 +20,8 @@ export class ProductUpdateComponent implements OnInit {
     producto_id: ['', [Validators.required]],
     barcode: ['', [Validators.required], [this.barcordeValid]],
     nombre: ['', [Validators.required]],
+    proveedor_id: ['', [Validators.required]],
+    codigo_proveedor: ['', [Validators.required]],
     costo_kilo: ['', [Validators.required, Validators.min(1)]],
   });
 
@@ -67,6 +69,8 @@ export class ProductUpdateComponent implements OnInit {
       this.product = product.product;
       this.miFormulario.get('barcode')?.setValue(this.product.barcode);
       this.miFormulario.get('nombre')?.setValue(this.product.nombre);
+      this.miFormulario.get('proveedor_id')?.setValue(this.product.proveedor_id);
+      this.miFormulario.get('codigo_proveedor')?.setValue(this.product.codigo_proveedor);
       this.miFormulario.get('costo_kilo')?.setValue(this.product.costo_kilo);
       this.miFormulario.get('producto_id')?.setValue(this.product.id);
 
@@ -81,6 +85,10 @@ export class ProductUpdateComponent implements OnInit {
   }
 
   productUpdate() {
+    if (this.miFormulario.invalid) {
+      this.miFormulario.markAllAsTouched();
+      return;
+    }
     const product = this.miFormulario.value;
     this.productsService.updateProduct(product, this.id_product).subscribe((resp) => {
       if ( resp.status === true ) {
