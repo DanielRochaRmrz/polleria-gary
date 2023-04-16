@@ -17,6 +17,8 @@ import { EntryService } from '../../services/entry.service';
 import { Caja } from '../../interfaces/boxes.interfaces';
 import { Producto } from '../../interfaces/products.interface';
 import { Data } from '../../interfaces/entry.interface';
+import { OutputG } from '../../interfaces/entry.interface';
+import { OutputUpdateComponent } from '../output-update/output-update.component';
 
 @Component({
   selector: 'app-output',
@@ -27,6 +29,7 @@ export class OutputComponent implements OnInit {
   public namePage: string = 'SALIDA';
   public modalRef: MdbModalRef<TicketComponent> | null = null;
   public modalGetPRef: MdbModalRef<ProductsGetComponent> | null = null;
+  public modalOutputUpdateRef: MdbModalRef<OutputUpdateComponent> | null = null;
 
   ls = localStorage;
 
@@ -306,6 +309,34 @@ export class OutputComponent implements OnInit {
         return;
       }
     }
+  }
+
+  editOutput(i: number, partidaG: OutputG, nameProduct: string) {
+    this.modalOutputUpdateRef = this.modalService.open(OutputUpdateComponent, {
+      data: { i, partidaG, nameProduct },
+      modalClass: 'modal-dialog-centered',
+    });
+    this.modalOutputUpdateRef.onClose.subscribe((msg: any) => {
+      if (msg) {
+
+        const getDetails = this.details;
+        // Sumar y actulizar los datos kilos, subtotal, total, total cajas y total tapas
+        getDetails[msg.i].costo_kilo = Number(msg.partidaG.costo_kilo);
+        getDetails[msg.i].subtotal = Number(msg.partidaG.subtotal);
+        getDetails[msg.i].total_cajas = Number(msg.partidaG.total_cajas);
+        getDetails[msg.i].total_tapas= Number(msg.partidaG.total_tapas);
+
+        // Actualizar detalles
+        this.ls.setItem('details', JSON.stringify(getDetails));
+
+        Swal.fire({
+          icon: 'success',
+          title: 'La edición de datos se realizó con exito',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    });
   }
 
   detailsExistBarcode(product_id: number) {

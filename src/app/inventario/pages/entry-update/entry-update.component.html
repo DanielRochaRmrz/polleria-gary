@@ -1,0 +1,89 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel"> {{ nameProduct }} </h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Cerrar"
+    (click)="modalRef.close()"
+  ></button>
+</div>
+<form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="entryUpdtae()">
+  <div class="modal-body">
+    <div class="row mb-5 mt-3 ms-3 me-3">
+      <mdb-form-control>
+        <input
+          mdbValidate
+          mdbInput
+          type="number"
+          class="form-control"
+          formControlName="costo_kilo"
+          required
+        />
+        <label mdbLabel class="form-label">Costo por kilo</label>
+        <mdb-error *ngIf="campoNoValido('costo_kilo')">
+          {{ costo_kiloErrorMsg }}
+        </mdb-error>
+      </mdb-form-control>
+    </div>
+    <div class="row mb-5 mt-3 ms-3 me-3">
+      <mdb-form-control>
+        <input
+          mdbValidate
+          mdbInput
+          type="number"
+          class="form-control"
+          formControlName="subtotal"
+          required
+        />
+        <label mdbLabel class="form-label">Subtotal</label>
+        <mdb-error *ngIf="campoNoValido('subtotal')">
+          {{ subtotalErrorMsg }}
+        </mdb-error>
+      </mdb-form-control>
+    </div>
+    <div class="row mb-5 mt-3 ms-3 me-3">
+      <mdb-form-control>
+        <input
+          mdbValidate
+          mdbInput
+          type="number"
+          class="form-control"
+          formControlName="total_cajas"
+          required
+        />
+        <label mdbLabel class="form-label">Total cajas</label>
+        <mdb-error *ngIf="campoNoValido('total_cajas')">
+          {{ total_casjasErrorMsg }}
+        </mdb-error>
+      </mdb-form-control>
+    </div>
+    <div class="row mb-5 mt-3 ms-3 me-3">
+      <mdb-form-control>
+        <input
+          mdbValidate
+          mdbInput
+          type="number"
+          class="form-control"
+          formControlName="total_tapas"
+          required
+        />
+        <label mdbLabel class="form-label">Total tapas</label>
+        <mdb-error *ngIf="campoNoValido('total_tapas')">
+          {{ total_tapasErrorMsg }}
+        </mdb-error>
+      </mdb-form-control>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
+      Cerrar
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="miFormulario.pending"
+    >
+      Guardar
+    </button>
+  </div>
+</form>

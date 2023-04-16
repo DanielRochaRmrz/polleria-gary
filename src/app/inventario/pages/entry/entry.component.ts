@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 
 import { TicketComponent } from '../ticket/ticket.component';
 import { ProductsGetComponent } from '../products-get/products-get.component';
+import { EntryUpdateComponent } from '../entry-update/entry-update.component';
 
 import { BoxesService } from './../../services/boxes.service';
 import { ProductsService } from '../../services/products.service';
@@ -16,7 +17,7 @@ import { EntryService } from '../../services/entry.service';
 
 import { Caja } from '../../interfaces/boxes.interfaces';
 import { GetProducts, Producto } from '../../interfaces/products.interface';
-import { Data } from '../../interfaces/entry.interface';
+import { Data, EntryG } from '../../interfaces/entry.interface';
 
 @Component({
   selector: 'app-entry',
@@ -27,6 +28,7 @@ export class EntryComponent implements OnInit {
   public namePage: string = 'ENTRADA';
   public modalRef: MdbModalRef<TicketComponent> | null = null;
   public modalGetPRef: MdbModalRef<ProductsGetComponent> | null = null;
+  public modalEntryUpdateRef: MdbModalRef<EntryUpdateComponent> | null = null;
 
   ls = localStorage;
 
@@ -307,6 +309,35 @@ export class EntryComponent implements OnInit {
         return;
       }
     }
+  }
+
+  editEntry(i: number, partidaG: EntryG, nameProduct: string) {
+    this.modalEntryUpdateRef = this.modalService.open(EntryUpdateComponent, {
+      data: { i, partidaG, nameProduct },
+      modalClass: 'modal-dialog-centered',
+    });
+    this.modalEntryUpdateRef.onClose.subscribe((msg: any) => {
+      console.log('msg -->', msg);
+      if (msg) {
+
+        const getDetails = this.details;
+        // Sumar y actulizar los datos kilos, subtotal, total, total cajas y total tapas
+        getDetails[msg.i].costo_kilo = Number(msg.partidaG.costo_kilo);
+        getDetails[msg.i].subtotal = Number(msg.partidaG.subtotal);
+        getDetails[msg.i].total_cajas = Number(msg.partidaG.total_cajas);
+        getDetails[msg.i].total_tapas= Number(msg.partidaG.total_tapas);
+
+        // Actualizar detalles
+        this.ls.setItem('details', JSON.stringify(getDetails));
+
+        Swal.fire({
+          icon: 'success',
+          title: 'La edición de datos se realizó con exito',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    });
   }
 
   detailsExistBarcode(product_id: number) {

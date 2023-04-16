@@ -26,13 +26,10 @@ export class ProductsGetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('id_proveedor -->', this.id_proveedor);
-
     this.productsService
             .getProductByProvider(this.id_proveedor)
             .subscribe((prodts) => {
               this.products = prodts.product;
-              console.log('products -->', this.products);
             });
   }
 
