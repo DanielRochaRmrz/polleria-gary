@@ -5,6 +5,7 @@ import { BoxesComponent } from './pages/boxes/boxes.component';
 import { EntryComponent } from './pages/entry/entry.component';
 import { OutputComponent } from './pages/output/output.component';
 import { ProductsComponent } from './pages/products/products.component';
+import { TicketsComponent } from './pages/tickets/tickets.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
       { path: 'entry', component: EntryComponent },
       { path: 'output', component: OutputComponent },
       { path: 'products', component: ProductsComponent },
+      { path: 'tickets', component: TicketsComponent },
       { path: '**', redirectTo: 'products' },
     ]
   }

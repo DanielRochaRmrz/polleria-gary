@@ -28,6 +28,8 @@ import { TicketComponent } from './pages/ticket/ticket.component';
 import { ProductsGetComponent } from './pages/products-get/products-get.component';
 import { EntryUpdateComponent } from './pages/entry-update/entry-update.component';
 import { OutputUpdateComponent } from './pages/output-update/output-update.component';
+import { TicketsComponent } from './pages/tickets/tickets.component';
+import { FiltroTicketsPipe } from './pipes/filtro-tickets.pipe';
 
 
 
@@ -48,7 +50,9 @@ import { OutputUpdateComponent } from './pages/output-update/output-update.compo
     TicketComponent,
     ProductsGetComponent,
     EntryUpdateComponent,
-    OutputUpdateComponent
+    OutputUpdateComponent,
+    TicketsComponent,
+    FiltroTicketsPipe
   ],
   imports: [
     CommonModule,

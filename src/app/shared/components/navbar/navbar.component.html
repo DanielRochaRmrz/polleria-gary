@@ -112,6 +112,13 @@
         </a>
         <a
           class="list-group-item px-3 border-0 my-1 rounded"
+          [ngClass]="namePage === 'TICKETS' ? active : ''"
+          (click)="tickets()"
+        >
+          <i class="fa-solid fa-ballot-check mx-3"></i> Tickets
+        </a>
+        <a
+          class="list-group-item px-3 border-0 my-1 rounded"
           (click)="logout()"
         >
           <i class="fa-solid fa-circle-xmark mx-3"></i> Cerrar Sesión
