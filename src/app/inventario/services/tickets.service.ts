@@ -30,4 +30,19 @@ export class TicketsService {
     );
   }
 
+  getTicket(ticket_id: number): Observable<any> {
+    const url = `${this.baseUrl}/ticket-show/${ticket_id}`;
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${localStorage.getItem('token') || ''}`
+    );
+
+    return this.http.get<any>(url, { headers }).pipe(
+      map((resp) => {
+        return resp
+      }),
+      catchError(err => of(err.error))
+    );
+  }
+
 }

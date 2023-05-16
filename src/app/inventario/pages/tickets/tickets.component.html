@@ -16,16 +16,16 @@
             type="text"
             class="form-control"
             #txtSearch
-            (keyup)="onSearchProducto(txtSearch.value)"
+            (keyup)="onSearchTicket(txtSearch.value)"
           />
-          <label mdbLabel class="form-label" for="form1">Buscar producto</label>
+          <label mdbLabel class="form-label" for="form1">Buscar Ticket</label>
         </mdb-form-control>
       </div>
-      <div class="float-end">
+      <!-- <div class="float-end">
         <button class="btn btn-primary" (click)="openModal()">
           Agregar producto
         </button>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="row">
@@ -51,14 +51,14 @@
               <th scope="row">{{ ticket.id }}</th>
               <td>
                 <ng-container *ngIf="ticket.tipo == 1">
-                  Sabro Pollo
+                  <i class="fa-solid fa-box"></i> Caja
                 </ng-container>
                 <ng-container *ngIf="ticket.tipo == 2">
-                  Nutry Pollo
+                  <i class="fa-solid fa-barcode"></i> Producto
                 </ng-container>
               </td>
-              <td>{{ ticket.usuario_id }}</td>
-              <td>{{ ticket.created_at }}</td>
+              <td>{{ (ticket.usuario_id | getUser | async) }}</td>
+              <td>{{ ticket.created_at | date: 'dd/MM/yyyy, h:mm a' }}</td>
               <td>
                 <div mdbDropdown class="dropdown">
                   <button
@@ -78,11 +78,11 @@
                     <li>
                       <a
                         class="dropdown-item"
-                        (click)="openModalUpdate(ticket.id)"
+                        (click)="openModal(ticket.id)"
                       >
                         <div class="text-primary">
-                          <i class="mx-3 fa-solid fa-pen-to-square"></i>
-                          Editar
+                          <i class="mx-3 fa-solid fa-eye"></i>
+                          Ver detalles
                         </div>
                       </a>
                     </li>

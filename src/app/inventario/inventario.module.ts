@@ -30,6 +30,7 @@ import { EntryUpdateComponent } from './pages/entry-update/entry-update.componen
 import { OutputUpdateComponent } from './pages/output-update/output-update.component';
 import { TicketsComponent } from './pages/tickets/tickets.component';
 import { FiltroTicketsPipe } from './pipes/filtro-tickets.pipe';
+import { GetUserPipe } from './pipes/get-user.pipe';
 
 
 
@@ -52,7 +53,8 @@ import { FiltroTicketsPipe } from './pipes/filtro-tickets.pipe';
     EntryUpdateComponent,
     OutputUpdateComponent,
     TicketsComponent,
-    FiltroTicketsPipe
+    FiltroTicketsPipe,
+    GetUserPipe,
   ],
   imports: [
     CommonModule,

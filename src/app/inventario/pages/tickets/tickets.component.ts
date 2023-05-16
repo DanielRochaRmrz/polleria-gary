@@ -4,9 +4,12 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import Swal from 'sweetalert2';
 
 import { TicketsService } from '../../services/tickets.service';
-import { ProductRegisterComponent } from '../product-register/product-register.component';
+
 import { Ticket } from '../../interfaces/tickets.interface';
+
+import { ProductRegisterComponent } from '../product-register/product-register.component';
 import { ProductUpdateComponent } from '../product-update/product-update.component';
+import { TicketComponent } from '../ticket/ticket.component';
 
 @Component({
   selector: 'app-tickets',
@@ -37,8 +40,8 @@ export class TicketsComponent implements OnInit {
    });
   }
 
-  openModal() {
-    this.modalRef = this.modalService.open(ProductRegisterComponent);
+  openModal(ticket_id: number) {
+    this.modalRef = this.modalService.open(TicketComponent, { data: { ticket_id } });
     this.modalRef.onClose.subscribe((msg: any) => {
       // this.loadProducts();
     });
@@ -106,7 +109,7 @@ export class TicketsComponent implements OnInit {
     }
   }
 
-  onSearchProducto( search: string  ) {
+  onSearchTicket( search: string  ) {
     this.page = 0;
     this.search = search;
   }
