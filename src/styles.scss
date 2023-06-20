@@ -107,3 +107,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 table {
   margin-top: 2rem;
 }
+
+.cdk-overlay-container {
+  z-index: 1000 !important;
+}

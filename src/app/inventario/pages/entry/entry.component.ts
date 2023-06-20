@@ -321,9 +321,10 @@ export class EntryComponent implements OnInit {
       if (msg) {
 
         const getDetails = this.details;
+        const subtotal = Number(msg.partidaG.costo_kilo) * Number(msg.partidaG.kilos);
         // Sumar y actulizar los datos kilos, subtotal, total, total cajas y total tapas
         getDetails[msg.i].costo_kilo = Number(msg.partidaG.costo_kilo);
-        getDetails[msg.i].subtotal = Number(msg.partidaG.subtotal);
+        getDetails[msg.i].subtotal = Number(subtotal.toFixed(2));
         getDetails[msg.i].total_cajas = Number(msg.partidaG.total_cajas);
         getDetails[msg.i].total_tapas= Number(msg.partidaG.total_tapas);
 
@@ -424,6 +425,10 @@ export class EntryComponent implements OnInit {
   }
 
   ticketRegister() {
+    this.entryService.ticketPrint().subscribe(res => {
+      console.log('res -->', res);
+    })
+
     if (!this.details.length) {
       Swal.fire({
         title: 'Info',

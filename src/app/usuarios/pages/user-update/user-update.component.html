@@ -33,7 +33,6 @@
             type="text"
             class="form-control"
             formControlName="usuario"
-            readonly="true"
             required
           />
           <label mdbLabel class="form-label">Usuario</label>
@@ -50,10 +49,9 @@
       <button
         type="submit"
         class="btn btn-primary"
-        [disabled]="miFormulario.invalid || miFormulario.pending"
+        [disabled]="miFormulario.pending"
       >
         Actulizar
       </button>
     </div>
   </form>
-  

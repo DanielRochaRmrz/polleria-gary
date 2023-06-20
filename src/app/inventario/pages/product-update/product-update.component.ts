@@ -23,6 +23,7 @@ export class ProductUpdateComponent implements OnInit {
     proveedor_id: ['', [Validators.required]],
     codigo_proveedor: ['', [Validators.required]],
     costo_kilo: ['', [Validators.required, Validators.min(1)]],
+    stock_kilos: ['', [Validators.required]],
   });
 
   get barcodeErrorMsg(): string {
@@ -54,6 +55,7 @@ export class ProductUpdateComponent implements OnInit {
   id_product!: number;
   product!: Producto;
 
+  isEdit: boolean = true;
 
   constructor(
     private fb: FormBuilder,
@@ -65,15 +67,19 @@ export class ProductUpdateComponent implements OnInit {
   ngOnInit(): void {
     localStorage.setItem('id_producto', this.id_product.toString());
 
-    this.productsService.getProduct(this.id_product).subscribe(product => {
+    this.productsService.getProduct(this.id_product).subscribe((product) => {
       this.product = product.product;
       this.miFormulario.get('barcode')?.setValue(this.product.barcode);
       this.miFormulario.get('nombre')?.setValue(this.product.nombre);
-      this.miFormulario.get('proveedor_id')?.setValue(this.product.proveedor_id);
-      this.miFormulario.get('codigo_proveedor')?.setValue(this.product.codigo_proveedor);
+      this.miFormulario
+        .get('proveedor_id')
+        ?.setValue(this.product.proveedor_id);
+      this.miFormulario
+        .get('codigo_proveedor')
+        ?.setValue(this.product.codigo_proveedor);
       this.miFormulario.get('costo_kilo')?.setValue(this.product.costo_kilo);
+      this.miFormulario.get('stock_kilos')?.setValue(this.product.stock_kilos);
       this.miFormulario.get('producto_id')?.setValue(this.product.id);
-
     });
   }
 
@@ -89,33 +95,86 @@ export class ProductUpdateComponent implements OnInit {
       this.miFormulario.markAllAsTouched();
       return;
     }
-    const product = this.miFormulario.value;
-    this.productsService.updateProduct(product, this.id_product).subscribe((resp) => {
-      if ( resp.status === true ) {
-        Swal.fire({
-          title: 'Éxito',
-          text: resp.message,
-          icon: 'success',
-          confirmButtonText: 'Aceptar',
-          confirmButtonColor: '#0f1765',
-          customClass: {
-            container: 'my-swal'
+
+    if (
+      this.product.stock_kilos != this.miFormulario.get('stock_kilos')?.value
+    ) {
+      Swal.fire({
+        title: '¿Estás seguro de actulizar el stock de kilos?',
+        text: `Anterior ${this.product.stock_kilos}  se actulizara a ${
+          this.miFormulario.get('stock_kilos')?.value
+        }`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#0f1765',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Sí, continua!',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const product = this.miFormulario.value;
+          this.productsService
+            .updateProduct(product, this.id_product)
+            .subscribe((resp) => {
+              if (resp.status === true) {
+                Swal.fire({
+                  title: 'Éxito',
+                  text: resp.message,
+                  icon: 'success',
+                  confirmButtonText: 'Aceptar',
+                  confirmButtonColor: '#0f1765',
+                  customClass: {
+                    container: 'my-swal',
+                  },
+                }).then(() => {
+                  this.modalRef.close();
+                });
+              } else {
+                Swal.fire({
+                  title: 'Error',
+                  text: resp.message,
+                  icon: 'error',
+                  confirmButtonText: 'Aceptar',
+                  confirmButtonColor: '#0f1765',
+                  customClass: {
+                    container: 'my-swal',
+                  },
+                });
+              }
+            });
+        }
+      });
+    } else {
+      const product = this.miFormulario.value;
+      this.productsService
+        .updateProduct(product, this.id_product)
+        .subscribe((resp) => {
+          if (resp.status === true) {
+            Swal.fire({
+              title: 'Éxito',
+              text: resp.message,
+              icon: 'success',
+              confirmButtonText: 'Aceptar',
+              confirmButtonColor: '#0f1765',
+              customClass: {
+                container: 'my-swal',
+              },
+            }).then(() => {
+              this.modalRef.close();
+            });
+          } else {
+            Swal.fire({
+              title: 'Error',
+              text: resp.message,
+              icon: 'error',
+              confirmButtonText: 'Aceptar',
+              confirmButtonColor: '#0f1765',
+              customClass: {
+                container: 'my-swal',
+              },
+            });
           }
-        }).then( () => {
-          this.modalRef.close();
         });
-      } else {
-        Swal.fire({
-          title: 'Error',
-          text: resp.message,
-          icon: 'error',
-          confirmButtonText: 'Aceptar',
-          confirmButtonColor: '#0f1765',
-          customClass: {
-            container: 'my-swal'
-          }
-        })
-      }
-    })
+    }
   }
 }

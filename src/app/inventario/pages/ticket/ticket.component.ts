@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 
 import { TicketsService } from '../../services/tickets.service';
+import { Detail, TicketDetails } from '../../interfaces/tickets.interface';
+import { ProductsService } from '../../services/products.service';
+import { Products } from '../../interfaces/products.interface';
 
 @Component({
   selector: 'app-ticket',
@@ -10,8 +13,12 @@ import { TicketsService } from '../../services/tickets.service';
 })
 export class TicketComponent implements OnInit {
   ls = localStorage;
-  date = new Date();
+  date!: string;
+  totalTicket!: number;
   ticket_id!: number;
+  ticketDetails!: TicketDetails;
+  detailsTiket!: Detail[];
+  products: any[] = [];
 
   get details() {
     return JSON.parse(this.ls.getItem('details') || '[]');
@@ -27,12 +34,30 @@ export class TicketComponent implements OnInit {
 
   constructor(
     public modalRef: MdbModalRef<TicketComponent>,
-    private ticketService: TicketsService
+    private productsService: ProductsService,
+    private ticketService: TicketsService,
   ) {}
 
   ngOnInit(): void {
-    this.ticketService.getTicket(this.ticket_id).subscribe( data => {
-      console.log('data ticket -->', data);
+
+    this.productsService.getProducts().subscribe( data => {
+      data.products.forEach( p => {
+            this.products.push({ id: p.id, nombre: p.nombre });
+      })
+    });
+
+    this.ticketService.getTicket(this.ticket_id).subscribe( (data: TicketDetails) => {
+      if (data) {
+        this.ticketDetails = data;
+        this.date = this.ticketDetails.ticket.created_at;
+        this.totalTicket = this.ticketDetails.ticket.total;
+        this.detailsTiket = this.ticketDetails.details;
+        this.detailsTiket.forEach( dT => {
+          const product = this.products.find( product => product.id ==  dT.product_id);
+          return dT.nombreProducto = product.nombre;
+        })
+      }
     })
+
   }
 }

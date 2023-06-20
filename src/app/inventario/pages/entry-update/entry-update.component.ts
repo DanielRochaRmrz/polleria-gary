@@ -16,8 +16,9 @@ export class EntryUpdateComponent implements OnInit {
   nameProduct!: string;
 
   miFormulario: FormGroup = this.fb.group({
+    kilos: ['', [Validators.required, Validators.min(1)]],
     costo_kilo: ['', [Validators.required, Validators.min(1)]],
-    subtotal: ['', [Validators.required, Validators.min(1)]],
+    // subtotal: ['', [Validators.required, Validators.min(1)]],
     total_cajas: ['', [Validators.required, Validators.min(1)]],
     total_tapas: ['', [Validators.required, Validators.min(1)]],
   });
@@ -72,8 +73,9 @@ export class EntryUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.miFormulario.get('kilos')?.setValue(this.partidaG.kilos);
     this.miFormulario.get('costo_kilo')?.setValue(this.partidaG.costo_kilo);
-    this.miFormulario.get('subtotal')?.setValue(this.partidaG.subtotal);
+    // this.miFormulario.get('subtotal')?.setValue(this.partidaG.subtotal);
     this.miFormulario.get('total_cajas')?.setValue(this.partidaG.total_cajas);
     this.miFormulario.get('total_tapas')?.setValue(this.partidaG.total_tapas);
   }

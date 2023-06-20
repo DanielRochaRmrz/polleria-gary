@@ -45,4 +45,19 @@ export class EntryService {
     );
   }
 
+  ticketPrint() {
+    const url = `${this.baseUrl}/ticket-print`;
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${localStorage.getItem('token') || ''}`
+    );
+
+    return this.http.get<BoxOrProduct>(url, { headers }).pipe(
+      map((resp) => {
+        return resp
+      }),
+      catchError(err => of(err.error))
+    );
+  }
+
 }

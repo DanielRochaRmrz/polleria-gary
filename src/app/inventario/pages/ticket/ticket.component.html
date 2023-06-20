@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="exampleModalLabel">Entradas</h5>
+  <h5 class="modal-title" id="exampleModalLabel">Ticket detalle</h5>
   <button
     type="button"
     class="btn-close"
@@ -23,27 +23,27 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let d of details; let i = index">
+          <ng-container *ngFor="let d of detailsTiket; let i = index">
             <tr>
-              <td class="producto text-center fw-bold">{{ d.barcode }}</td>
-              <td class="kilos text-end fw-bold">{{ d.kilos }}</td>
+              <td class="producto text-center fw-bold"> {{ d.nombreProducto }} </td>
+              <td class="kilos text-end fw-bold">{{ d.kilos }} Kg</td>
               <td class="costo text-end fw-bold">{{ d.costo_kilo | currency:"MXN":"symbol" }}</td>
               <td class="importe text-end fw-bold">{{ d.subtotal | currency:"MXN":"symbol" }}</td>
             </tr>
-            <ng-container *ngFor="let de of detailsExist; let i = index">
+            <!-- <ng-container *ngFor="let de of detailsExist; let i = index">
               <tr *ngIf="d.barcode === de.barcode">
                 <td class="producto text-center">-</td>
                 <td class="kilos text-end">{{ de.kilos }}</td>
                 <td class="costo text-end">{{ de.costo_kilo | currency:"MXN":"symbol" }}</td>
                 <td class="importe text-end">{{ de.subtotal | currency:"MXN":"symbol" }}</td>
               </tr>
-            </ng-container>
+            </ng-container> -->
           </ng-container>
           <tr class="total">
             <td></td>
             <td></td>
             <td class="producto text-center fw-bold">TOTAL:</td>
-            <td class="kilos text-end fw-bold">{{ detailsTotal | currency:"MXN":"symbol" }}</td>
+            <td class="kilos text-end fw-bold">{{ totalTicket | currency:"MXN":"symbol" }}</td>
           </tr>
         </tbody>
       </table>
@@ -51,14 +51,14 @@
   </div>
 
   <div class="container text-center">
-    <button
+    <!-- <button
       class="btn btn-primary"
       [useExistingCss]="true"
       printSectionId="print-section"
       ngxPrint
     >
       Imprimir ticket
-    </button>
+    </button> -->
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="modalRef.close()">

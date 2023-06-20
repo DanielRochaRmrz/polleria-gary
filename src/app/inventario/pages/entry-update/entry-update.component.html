@@ -8,6 +8,7 @@
   ></button>
 </div>
 <form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="entryUpdtae()">
+  <input type="number" formControlName="kilos" hidden>
   <div class="modal-body">
     <div class="row mb-5 mt-3 ms-3 me-3">
       <mdb-form-control>
@@ -25,7 +26,7 @@
         </mdb-error>
       </mdb-form-control>
     </div>
-    <div class="row mb-5 mt-3 ms-3 me-3">
+    <!-- <div class="row mb-5 mt-3 ms-3 me-3">
       <mdb-form-control>
         <input
           mdbValidate
@@ -40,7 +41,7 @@
           {{ subtotalErrorMsg }}
         </mdb-error>
       </mdb-form-control>
-    </div>
+    </div> -->
     <div class="row mb-5 mt-3 ms-3 me-3">
       <mdb-form-control>
         <input

@@ -89,6 +89,8 @@ export class ProductsService {
   }
 
   updateProduct(product: any, id_product: number): Observable<GetProduct> {
+    console.log('product -->', product);
+
     const url = `${this.baseUrl}/product-update/${id_product}`;
     const body = product;
     const headers = new HttpHeaders().set(

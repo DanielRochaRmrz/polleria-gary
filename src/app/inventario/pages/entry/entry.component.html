@@ -69,12 +69,19 @@
               </tr>
               <ng-container *ngFor="let de of detailsExist; let i = index">
                 <tr *ngIf="d.product_id === de.product_id">
-                  <th class="text-center" scope="row">-</th>
+                  <th class="text-center" scope="row">
+                    <ng-container *ngIf="de.total_tapas == 1">
+                      <i class="fa-solid fa-box"></i> Caja
+                    </ng-container>
+                    <ng-container *ngIf="de.total_tapas == 0">
+                      <i class="fa-solid fa-barcode"></i> Producto
+                    </ng-container>
+                  </th>
                   <td class="text-end">{{ de.kilos }}</td>
                   <td class="text-end"></td>
                   <td class="text-end">{{ de.subtotal.toFixed(2) }}</td>
-                  <td class="text-end">{{ de.total_cajas }}</td>
-                  <td class="text-end">{{ de.total_tapas }}</td>
+                  <td class="text-end"></td>
+                  <td class="text-end"></td>
                   <td class="text-center">
                     <button
                       class="btn btn-danger"

@@ -21,11 +21,6 @@
           <label mdbLabel class="form-label" for="form1">Buscar Ticket</label>
         </mdb-form-control>
       </div>
-      <!-- <div class="float-end">
-        <button class="btn btn-primary" (click)="openModal()">
-          Agregar producto
-        </button>
-      </div> -->
     </div>
   </div>
   <div class="row">
@@ -57,7 +52,7 @@
                   <i class="fa-solid fa-barcode"></i> Producto
                 </ng-container>
               </td>
-              <td>{{ (ticket.usuario_id | getUser | async) }}</td>
+              <td>{{ ticket.usuario }}</td>
               <td>{{ ticket.created_at | date: 'dd/MM/yyyy, h:mm a' }}</td>
               <td>
                 <div mdbDropdown class="dropdown">
@@ -89,8 +84,8 @@
                     <li>
                       <a
                         class="dropdown-item"
+                        (click)="deleteProduct(ticket.id)"
                         >
-                        <!-- (click)="deleteProduct(product.id)" -->
                         <div class="text-danger">
                           <i class="mx-3 fa-solid fa-trash"></i>
                           Eliminar

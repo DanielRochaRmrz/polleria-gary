@@ -5,7 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { Tickets } from '../interfaces/tickets.interface';
+import { TicketDetails, Tickets } from '../interfaces/tickets.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -30,19 +30,31 @@ export class TicketsService {
     );
   }
 
-  getTicket(ticket_id: number): Observable<any> {
+  getTicket(ticket_id: number): Observable<TicketDetails> {
     const url = `${this.baseUrl}/ticket-show/${ticket_id}`;
     const headers = new HttpHeaders().set(
       'Authorization',
       `Bearer ${localStorage.getItem('token') || ''}`
     );
 
-    return this.http.get<any>(url, { headers }).pipe(
+    return this.http.get<TicketDetails>(url, { headers }).pipe(
       map((resp) => {
         return resp
       }),
       catchError(err => of(err.error))
     );
+  }
+
+  deleteTicket(id_ticket: number) {
+    const url = `${this.baseUrl}/ticket-delete/${id_ticket}`;
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${localStorage.getItem('token') || ''}`
+    );
+    return this.http.delete<any>(url, { headers }).pipe(
+      map(resp => resp),
+      catchError(err => of(err.error))
+    )
   }
 
 }
