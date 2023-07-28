@@ -444,7 +444,7 @@ export class OutputComponent implements OnInit {
     Swal.fire({
       title: '¿Los datos ingredsados son correctos?',
       showDenyButton: true,
-      showCancelButton: true,
+      showCancelButton: false,
       confirmButtonText: 'Guardar',
       confirmButtonColor: '#0f1765',
       denyButtonText: `No guardar`,
@@ -471,7 +471,8 @@ export class OutputComponent implements OnInit {
                 container: 'my-swal',
               },
             }).then(() => {
-              this.modalRef = this.modalService.open(TicketComponent);
+              const ticket_id =  resp.ticket_id;
+              this.modalRef = this.modalService.open(TicketComponent, { data: { ticket_id } });
               this.modalRef.onClose.subscribe((msg: any) => {
                 this.ls.removeItem('details');
                 this.ls.removeItem('detailsExist');

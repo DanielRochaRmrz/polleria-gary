@@ -43,21 +43,20 @@ export class TicketComponent implements OnInit {
     this.productsService.getProducts().subscribe( data => {
       data.products.forEach( p => {
             this.products.push({ id: p.id, nombre: p.nombre });
+      });
+      this.ticketService.getTicket(this.ticket_id).subscribe( (data: TicketDetails) => {
+        if (data) {
+          this.ticketDetails = data;
+          this.date = this.ticketDetails.ticket.created_at;
+          this.totalTicket = this.ticketDetails.ticket.total;
+          this.detailsTiket = this.ticketDetails.details;
+          this.detailsTiket.forEach( dT => {
+            const product = this.products.find( product => product.id ==  dT.product_id);
+            return dT.nombreProducto = product.nombre;
+          })
+        }
       })
     });
-
-    this.ticketService.getTicket(this.ticket_id).subscribe( (data: TicketDetails) => {
-      if (data) {
-        this.ticketDetails = data;
-        this.date = this.ticketDetails.ticket.created_at;
-        this.totalTicket = this.ticketDetails.ticket.total;
-        this.detailsTiket = this.ticketDetails.details;
-        this.detailsTiket.forEach( dT => {
-          const product = this.products.find( product => product.id ==  dT.product_id);
-          return dT.nombreProducto = product.nombre;
-        })
-      }
-    })
 
   }
 }

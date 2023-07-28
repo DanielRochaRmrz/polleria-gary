@@ -468,7 +468,7 @@ export class EntryComponent implements OnInit {
           details: this.details,
         };
 
-        this.entryService.ticketRegister(ticket).subscribe((resp) => {
+        this.entryService.ticketRegister(ticket).subscribe((resp: any) => {
           if (resp.status) {
             Swal.fire({
               title: 'Éxito',
@@ -480,7 +480,8 @@ export class EntryComponent implements OnInit {
                 container: 'my-swal',
               },
             }).then(() => {
-              this.modalRef = this.modalService.open(TicketComponent);
+              const ticket_id =  resp.ticket_id;
+              this.modalRef = this.modalService.open(TicketComponent, { data: { ticket_id } });
               this.modalRef.onClose.subscribe((msg: any) => {
                 this.ls.removeItem('details');
                 this.ls.removeItem('detailsExist');
