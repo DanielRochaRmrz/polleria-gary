@@ -1,84 +1,105 @@
 <app-navbar [namePage]="namePage"></app-navbar>
 <div class="container">
-  <!-- <div
-  class="d-flex align-items-center justify-content-center"
->
-  <div
-    class="card w-75 ms-sm-5 ms-md-5 ms-lg-5 me-sm-5 me-md-5 me-lg-5 mt-sm-5 mt-md-5 mt-lg-5"
-  > -->
-
-  <div class="row mb-sm-2 mb-md-2 mb-lg-2">
-    <div class="col-sm-12 col-md-12 col-lg-12">
-      <div class="float-start">
-        <mdb-form-control>
-          <input
-            mdbInput
-            type="text"
-            class="form-control"
-            #txtSearch
-            (keyup)="onSearchProducto(txtSearch.value)"
-          />
-          <label mdbLabel class="form-label" for="form1">Buscar producto</label>
-        </mdb-form-control>
-      </div>
-      <div class="float-end">
-        <button class="btn btn-primary" (click)="openModal()">
-          Agregar producto
-        </button>
+  <div class="row">
+    <div class="row mb-sm-2 mb-md-2 mb-lg-2 mt-5">
+      <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="float-start">
+          <mdb-form-control>
+            <input
+              mdbInput
+              class="form-control"
+              (keyup)="applyFilter($event)"
+              #input
+            />
+            <label mdbLabel class="form-label" for="form1">
+              Buscar producto &nbsp;
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </label>
+          </mdb-form-control>
+        </div>
+        <div class="float-end">
+          <button class="btn btn-primary" (click)="openModal()">
+            Agregar producto
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12">
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col-sm-12 col-md-12 col-lg-12">#</th>
-              <th scope="col-sm-12 col-md-12 col-lg-12">Nombre</th>
-              <th scope="col-sm-12 col-md-12 col-lg-12">Barcode</th>
-              <th scope="col-sm-12 col-md-12 col-lg-12">Proveedor</th>
-              <th scope="col-sm-12 col-md-12 col-lg-12">Codigo proveedor</th>
-              <th scope="col-sm-12 col-md-12 col-lg-12">Costo por kilo</th>
-              <th scope="col-sm-12 col-md-12 col-lg-12">Stock kilos</th>
-              <th scope="col-sm-12 col-md-12 col-lg-12">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="
-                let product of products | filtroProducts : page : search;
-                let i = index
-              "
-            >
-              <th scope="row">{{ i + 1 }}</th>
-              <td>{{ product.nombre }}</td>
-              <td>{{ product.barcode }}</td>
-              <td>
-                <ng-container *ngIf="product.proveedor_id == 1">
-                  Sabro Pollo
-                </ng-container>
-                <ng-container *ngIf="product.proveedor_id == 2">
-                  Nutry Pollo
-                </ng-container>
-                <ng-container *ngIf="product.proveedor_id == 3">
-                  Rastro St. Clara
-                </ng-container>
-                <ng-container *ngIf="product.proveedor_id == 4">
-                  Grupo Pecuario
-                </ng-container>
-                <ng-container *ngIf="product.proveedor_id == 5">
-                  Bachoco
-                </ng-container>
-                <ng-container *ngIf="product.proveedor_id == 6">
-                  Supollo
-                </ng-container>
+      <div class="data-container mat-elevation-z8 mt-3">
+        <div class="loading-shade" *ngIf="isLoadingResults">
+          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        </div>
+
+        <div class="table-responsive">
+          <table mat-table [dataSource]="dataSource">
+            <!-- ID Column -->
+            <ng-container matColumnDef="#">
+              <th mat-header-cell *matHeaderCellDef>#</th>
+              <td mat-cell *matCellDef="let row; let i = index">
+                <span class="mobile-label">#</span>
+                {{ i + 1 }}
               </td>
-              <td>{{ product.codigo_proveedor }}</td>
-              <td>{{ product.costo_kilo }}</td>
-              <td>{{ product.stock_kilos }}</td>
-              <td>
+            </ng-container>
+
+            <!-- Nombre Column -->
+            <ng-container matColumnDef="Nombre">
+              <th mat-header-cell *matHeaderCellDef>Nombre</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="mobile-label">Nombre</span>
+                {{ row.nombre }}
+              </td>
+            </ng-container>
+
+            <!-- Barcode Column -->
+            <ng-container matColumnDef="Barcode">
+              <th mat-header-cell *matHeaderCellDef>Barcode</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="mobile-label">Barcode</span>
+                {{ row.barcode }}
+              </td>
+            </ng-container>
+
+            <!-- Proveedor Column -->
+            <ng-container matColumnDef="Proveedor">
+              <th mat-header-cell *matHeaderCellDef>Proveedor</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.proveedor_id }}
+              </td>
+            </ng-container>
+
+            <!-- Codigo proveedor Column -->
+            <ng-container matColumnDef="Codigo proveedor">
+              <th mat-header-cell *matHeaderCellDef>Codigo proveedor</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="mobile-label">Codigo proveedor</span>
+                {{ row.codigo_proveedor }}
+              </td>
+            </ng-container>
+
+            <!-- Costo por kilo Column -->
+            <ng-container matColumnDef="Costo por kilo">
+              <th mat-header-cell *matHeaderCellDef>Costo por kilo</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="mobile-label">Costo por kilo</span>
+                {{ row.costo_kilo }}
+              </td>
+            </ng-container>
+
+            <!-- Stock kilos Column -->
+            <ng-container matColumnDef="Stock kilos">
+              <th mat-header-cell *matHeaderCellDef>Stock kilos</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="mobile-label">Stock kilos</span>
+                {{ row.stock_kilos }}
+              </td>
+            </ng-container>
+
+            <!-- Acciones Column -->
+            <ng-container matColumnDef="Acciones">
+              <th mat-header-cell *matHeaderCellDef>Acciones</th>
+              <td mat-cell *matCellDef="let row">
                 <div mdbDropdown class="dropdown">
+                  <span class="mobile-label">Acciones</span>
                   <button
                     class="btn btn-primary dropdown-toggle"
                     type="button"
@@ -96,7 +117,7 @@
                     <li>
                       <a
                         class="dropdown-item"
-                        (click)="openModalUpdate(product.id)"
+                        (click)="openModalUpdate(row.id)"
                       >
                         <div class="text-primary">
                           <i class="mx-3 fa-solid fa-pen-to-square"></i>
@@ -105,10 +126,7 @@
                       </a>
                     </li>
                     <li>
-                      <a
-                        class="dropdown-item"
-                        (click)="deleteProduct(product.id)"
-                      >
+                      <a class="dropdown-item" (click)="deleteProduct(row.id)">
                         <div class="text-danger">
                           <i class="mx-3 fa-solid fa-trash"></i>
                           Eliminar
@@ -118,35 +136,26 @@
                   </ul>
                 </div>
               </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No hay datos que coincidan con: "{{ input.value }}"
+              </td>
             </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-  <hr class="hr hr-blurry" />
-  <div class="container px-4 text-end">
-    <div class="row gx-5">
-      <div class="col">
-        <div class="p-3">
-          <button class="btn btn-outline-primary" (click)="prevPage()">
-            Anteriores
-          </button>
-          &nbsp;
-          <button
-            class="btn btn-outline-primary"
-            (click)="nextPage()"
-            [disabled]="
-              (products | filtroProducts : page : search).length === 0 ||
-              (products | filtroProducts : page : search).length < 5
-            "
-          >
-            Siguientes
-          </button>
+          </table>
         </div>
+
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 25, 100]"
+          aria-label="Select page of users"
+        ></mat-paginator>
       </div>
     </div>
   </div>
 </div>
-<!-- </div>
-</div> -->
+<hr class="hr hr-blurry" />

@@ -46,4 +46,5 @@ export interface Ticket {
   usuario_id: number;
   created_at: string;
   updated_at: string;
+  tipoTK?:    string;
 }

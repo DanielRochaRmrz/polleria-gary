@@ -19,8 +19,8 @@ export class EntryUpdateComponent implements OnInit {
     kilos: ['', [Validators.required, Validators.min(1)]],
     costo_kilo: ['', [Validators.required, Validators.min(1)]],
     // subtotal: ['', [Validators.required, Validators.min(1)]],
-    total_cajas: ['', [Validators.required, Validators.min(1)]],
-    total_tapas: ['', [Validators.required, Validators.min(1)]],
+    total_cajas: ['', [Validators.required, Validators.min(0)]],
+    total_tapas: ['', [Validators.required, Validators.min(0)]],
   });
 
   get costo_kiloErrorMsg(): string {
@@ -51,7 +51,7 @@ export class EntryUpdateComponent implements OnInit {
     if (errors?.['required']) {
       return 'El campo total cajas es obligatorio';
     } else if (errors?.['min']) {
-      return 'El campo total cajas debe ser mayor a 0';
+      return 'El campo total cajas debe ser mayor ó igual a 0';
     }
     return '';
   }
@@ -62,7 +62,7 @@ export class EntryUpdateComponent implements OnInit {
     if (errors?.['required']) {
       return 'El campo total tapas es obligatorio';
     } else if (errors?.['min']) {
-      return 'El campo total tapas debe ser mayor a 0';
+      return 'El campo total tapas debe ser mayor ó igual a 0';
     }
     return '';
   }

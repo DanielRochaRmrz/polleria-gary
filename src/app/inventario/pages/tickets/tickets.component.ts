@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import Swal from 'sweetalert2';
@@ -11,6 +13,21 @@ import { Ticket } from '../../interfaces/tickets.interface';
 import { ProductRegisterComponent } from '../product-register/product-register.component';
 import { ProductUpdateComponent } from '../product-update/product-update.component';
 import { TicketComponent } from '../ticket/ticket.component';
+import { Usuario } from 'src/app/usuarios/interfaces/users.interfaces';
+
+const dutchRangeLabel = (page: number, pageSize: number, length: number) => {
+  if (length == 0 || pageSize == 0) { return `0 van ${length}`; }
+
+  length = Math.max(length, 0);
+
+  const startIndex = page * pageSize;
+
+  const endIndex = startIndex < length ?
+      Math.min(startIndex + pageSize, length) :
+      startIndex + pageSize;
+
+  return `${startIndex + 1} - ${endIndex} de ${length}`;
+}
 
 @Component({
   selector: 'app-tickets',
@@ -23,9 +40,21 @@ export class TicketsComponent implements OnInit {
   public modalRef: MdbModalRef<ProductRegisterComponent> | null = null;
   public modalRefUpdate: MdbModalRef<ProductUpdateComponent> | null = null;
   public tickets: Ticket[] = [];
-  public users: any[] = [];
+  public users: Usuario[] = [];
   public page: number = 0;
   public search: string = '';
+  public isLoadingResults = true;
+
+  displayedColumns: string[] = [
+    '#',
+    'Caja/Producto',
+    'Usuario',
+    'Creado',
+    'Acciones',
+  ];
+  dataSource!: MatTableDataSource<Ticket>;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private usersService: UsersService,
@@ -37,19 +66,44 @@ export class TicketsComponent implements OnInit {
     this.loadTickets()
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.toLowerCase().trim();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
   loadTickets() {
     this.usersService.getUsers().subscribe( users => {
-      users.usuario.forEach(u => {
-        this.users.push({ id: u.id, usuario: u.usuario });
+      this.users = users.usuario;
+      this.users.forEach(u => {
+       return { id: u.id, usuario: u.usuario };
       });
-    })
-    this.ticketsService.getTickets().subscribe(resp => {
-      this.tickets = resp.ticket;
-      this.tickets.forEach( tk => {
-        const usuario = this.users.find( u => u.id == tk.usuario_id);
-        return tk.usuario = usuario.usuario;
-      });
-   });
+      this.ticketsService.getTickets().subscribe(resp => {
+        this.tickets = resp.ticket;
+        this.tickets.forEach( tk => {
+          const usuario: any = this.users.find( u => u.id == tk.usuario_id);
+          tk.usuario = usuario.usuario;
+          tk.tipoTK = tk.tipo === 1 ? 'Caja' : tk.tipo === 2 ? 'Producto' : '';
+        });
+        this.tickets.sort((a, b) => {
+          let inicio = new Date(a.created_at);
+          let final  = new Date(b.created_at)
+          if (inicio > final) {
+            return -1;
+          }
+          return 0;
+        });
+        this.dataSource = new MatTableDataSource(this.tickets);
+        this.paginator._intl.itemsPerPageLabel = 'tickets por página';
+        this.paginator._intl.nextPageLabel = 'página siguiente';
+        this.paginator._intl.previousPageLabel = 'página anterior';
+        this.paginator._intl.getRangeLabel = dutchRangeLabel;
+        this.dataSource.paginator = this.paginator;
+        this.isLoadingResults = false;
+     });
+    });
   }
 
   openModal(ticket_id: number) {

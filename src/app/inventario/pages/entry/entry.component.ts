@@ -176,6 +176,7 @@ export class EntryComponent implements OnInit {
 
     const nameProducts = {
       name_product: this.boxOrProduct.nombre,
+      product_id: this.boxOrProduct.id
     };
 
     if (existDetails) {
@@ -265,6 +266,7 @@ export class EntryComponent implements OnInit {
 
       const nameProducts = {
         name_product: this.boxOrProduct.nombre,
+        product_id:  this.boxOrProduct.id
       };
 
       if (existDetails) {
@@ -384,6 +386,12 @@ export class EntryComponent implements OnInit {
           (b: any) => b.product_id === product_id
         ).length;
 
+        // Consultar indice del nombre
+        const getNameProductsIndex = getNameProducts
+          .map((name: any) => name.product_id)
+          .indexOf(product_id);
+
+
         if (getDetailsBarcodeExist === 1) {
           //Si solo queda un detalle existente por barcode eliminara y actulizara la key detalles
           const getDetails = this.details;
@@ -393,7 +401,7 @@ export class EntryComponent implements OnInit {
           getDetailsExist.splice(i, 1);
           this.ls.setItem('detailsExist', JSON.stringify(getDetailsExist));
 
-          getNameProducts.splice(i, 1);
+          getNameProducts.splice(getNameProductsIndex, 1);
           this.ls.setItem('nameProducts', JSON.stringify(getNameProducts));
           return;
         }
@@ -446,12 +454,11 @@ export class EntryComponent implements OnInit {
     Swal.fire({
       title: '¿Los datos ingredsados son correctos?',
       showDenyButton: true,
-      showCancelButton: true,
+      showCancelButton: false,
       confirmButtonText: 'Guardar',
       confirmButtonColor: '#0f1765',
       denyButtonText: `No guardar`,
       denyButtonColor: '#d33',
-      cancelButtonText: 'Cancelar',
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {

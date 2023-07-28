@@ -13,6 +13,7 @@ import { UserRegisterComponent } from './pages/user-register/user-register.compo
 import { UserUpdateComponent } from './pages/user-update/user-update.component';
 
 import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../material.module';
 import { MdbootstrapModule } from '../mdbootstrap.module';
 import { FiltroUsersPipe } from './pipes/filtro-users.pipe';
 import { FiltroProvidersPipe } from './pipes/filtro-providers.pipe';
@@ -34,6 +35,7 @@ import { FiltroProvidersPipe } from './pipes/filtro-providers.pipe';
     CommonModule,
     UsuariosRoutingModule,
     SharedModule,
+    MaterialModule,
     MdbootstrapModule,
     ReactiveFormsModule
   ]

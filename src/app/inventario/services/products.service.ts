@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { catchError, map } from 'rxjs/operators';
+import { catchError, delay, map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
@@ -36,6 +36,7 @@ export class ProductsService {
     );
 
     return this.http.get<Products>(url, { headers }).pipe(
+      delay(1000),
       map((resp) => {
         return resp
       }),
