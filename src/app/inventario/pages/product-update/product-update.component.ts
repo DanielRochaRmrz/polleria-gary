@@ -24,6 +24,8 @@ export class ProductUpdateComponent implements OnInit {
     codigo_proveedor: ['', [Validators.required]],
     costo_kilo: ['', [Validators.required, Validators.min(1)]],
     stock_kilos: ['', [Validators.required]],
+    stock_cajas: ['', [Validators.required, Validators.min(0)]],
+    stock_tapas: ['', [Validators.required, Validators.min(0)]],
   });
 
   get barcodeErrorMsg(): string {
@@ -44,6 +46,28 @@ export class ProductUpdateComponent implements OnInit {
       return 'El campo costo_kilo es obligatorio';
     } else if (errors?.['min']) {
       return 'El campo costo_kilo debe ser mayor a 0';
+    }
+    return '';
+  }
+
+  get total_casjasErrorMsg(): string {
+    const errors = this.miFormulario.get('stock_cajas')?.errors;
+
+    if (errors?.['required']) {
+      return 'El campo total cajas es obligatorio';
+    } else if (errors?.['min']) {
+      return 'El campo total cajas debe ser mayor a 0';
+    }
+    return '';
+  }
+
+  get total_tapasErrorMsg(): string {
+    const errors = this.miFormulario.get('stock_tapas')?.errors;
+
+    if (errors?.['required']) {
+      return 'El campo total tapas es obligatorio';
+    } else if (errors?.['min']) {
+      return 'El campo total tapas debe ser mayor a 0';
     }
     return '';
   }
@@ -80,6 +104,8 @@ export class ProductUpdateComponent implements OnInit {
       this.miFormulario.get('costo_kilo')?.setValue(this.product.costo_kilo);
       this.miFormulario.get('stock_kilos')?.setValue(this.product.stock_kilos);
       this.miFormulario.get('producto_id')?.setValue(this.product.id);
+      this.miFormulario.get('stock_cajas')?.setValue(this.product.stock_cajas);
+    this.miFormulario.get('stock_tapas')?.setValue(this.product.stock_tapas);
     });
   }
 

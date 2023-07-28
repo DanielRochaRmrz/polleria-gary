@@ -19,8 +19,8 @@ export class OutputUpdateComponent implements OnInit {
     kilos: ['', [Validators.required, Validators.min(1)]],
     costo_kilo: ['', [Validators.required, Validators.min(1)]],
     // subtotal: ['', [Validators.required, Validators.min(1)]],
-    total_cajas: ['', [Validators.required, Validators.min(1)]],
-    total_tapas: ['', [Validators.required, Validators.min(1)]],
+    total_cajas: ['', [Validators.required, Validators.min(0)]],
+    total_tapas: ['', [Validators.required, Validators.min(0)]],
   });
 
   get costo_kiloErrorMsg(): string {

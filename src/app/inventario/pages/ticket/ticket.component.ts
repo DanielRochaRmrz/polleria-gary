@@ -16,9 +16,11 @@ export class TicketComponent implements OnInit {
   date!: string;
   totalTicket!: number;
   ticket_id!: number;
+  ticket_type: string = '';
   ticketDetails!: TicketDetails;
   detailsTiket!: Detail[];
   products: any[] = [];
+  public isLoadingResults = true;
 
   get details() {
     return JSON.parse(this.ls.getItem('details') || '[]');
@@ -54,6 +56,7 @@ export class TicketComponent implements OnInit {
             const product = this.products.find( product => product.id ==  dT.product_id);
             return dT.nombreProducto = product.nombre;
           })
+          this.isLoadingResults = false;
         }
       })
     });

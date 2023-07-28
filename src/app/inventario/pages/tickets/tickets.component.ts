@@ -82,10 +82,12 @@ export class TicketsComponent implements OnInit {
       });
       this.ticketsService.getTickets().subscribe(resp => {
         this.tickets = resp.ticket;
+        console.log(this.tickets);
+
         this.tickets.forEach( tk => {
           const usuario: any = this.users.find( u => u.id == tk.usuario_id);
           tk.usuario = usuario.usuario;
-          tk.tipoTK = tk.tipo === 1 ? 'Caja' : tk.tipo === 2 ? 'Producto' : '';
+          tk.tipoTK = tk.tipo === 1 ? 'Entrada' : tk.tipo === 2 ? 'Salida' : '';
         });
         this.tickets.sort((a, b) => {
           let inicio = new Date(a.created_at);
@@ -106,8 +108,8 @@ export class TicketsComponent implements OnInit {
     });
   }
 
-  openModal(ticket_id: number) {
-    this.modalRef = this.modalService.open(TicketComponent, { data: { ticket_id } });
+  openModal(ticket_id: number, ticket_type: string) {
+    this.modalRef = this.modalService.open(TicketComponent, { data: { ticket_id, ticket_type } });
   }
 
   deleteProduct(id_ticket: number) {

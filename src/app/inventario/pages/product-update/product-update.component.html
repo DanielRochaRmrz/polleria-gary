@@ -94,6 +94,38 @@
           </mdb-error>
         </mdb-form-control>
       </div>
+      <div class="row mb-5 mt-3 ms-3 me-3">
+        <mdb-form-control>
+          <input
+            mdbValidate
+            mdbInput
+            type="number"
+            class="form-control"
+            formControlName="stock_cajas"
+            required
+          />
+          <label mdbLabel class="form-label">Stock cajas</label>
+          <mdb-error *ngIf="campoNoValido('stock_cajas')">
+            {{ total_casjasErrorMsg }}
+          </mdb-error>
+        </mdb-form-control>
+      </div>
+      <div class="row mb-5 mt-3 ms-3 me-3">
+        <mdb-form-control>
+          <input
+            mdbValidate
+            mdbInput
+            type="number"
+            class="form-control"
+            formControlName="stock_tapas"
+            required
+          />
+          <label mdbLabel class="form-label">Stock tapas</label>
+          <mdb-error *ngIf="campoNoValido('stock_tapas')">
+            {{ total_tapasErrorMsg }}
+          </mdb-error>
+        </mdb-form-control>
+      </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
@@ -104,7 +136,7 @@
         class="btn btn-primary"
         [disabled]="miFormulario.pending"
       >
-        Guardar
+        Actualizar
       </button>
     </div>
   </form>

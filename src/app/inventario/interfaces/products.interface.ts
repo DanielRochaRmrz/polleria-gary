@@ -39,4 +39,6 @@ export interface Producto {
   codigo_proveedor: string;
   created_at:       string;
   updated_at:       string;
+  stock_cajas:      number;
+  stock_tapas:       number;
 }

@@ -8,10 +8,13 @@
   ></button>
 </div>
 <div class="modal-body">
+  <div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
   <div id="print-section">
     <div class="ticket">
       <p class="title text-center fw-bold">
-        POLLERIA GARCIA <br /> PONTIGFICA, LEÓN GTO. <br /> {{ date | date: 'dd  MMMM y, h:mm:ss a' }}
+        POLLERIA GARCIA <br /> PONTIGFICA, LEÓN GTO. <br /> {{ date | date: 'dd  MMMM y, h:mm:ss a' }} <br> {{ ticket_type }}
       </p>
       <table>
         <thead>

@@ -34,7 +34,7 @@ const dutchRangeLabel = (page: number, pageSize: number, length: number) => {
   styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit {
-  public namePage: string = 'PRODUCTOS';
+  public namePage: string = 'INVENTARIO';
   public modalRef: MdbModalRef<ProductRegisterComponent> | null = null;
   public modalRefUpdate: MdbModalRef<ProductUpdateComponent> | null = null;
   public products: Product[] = [];
@@ -51,6 +51,8 @@ export class ProductsComponent implements OnInit {
     'Codigo proveedor',
     'Costo por kilo',
     'Stock kilos',
+    'Stock cajas',
+    'Stock tapas',
     'Acciones',
   ];
   dataSource!: MatTableDataSource<Product>;

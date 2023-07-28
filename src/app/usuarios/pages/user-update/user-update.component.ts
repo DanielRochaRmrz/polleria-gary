@@ -34,7 +34,7 @@ export class UserUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.usersService.getUser(this.id_user).subscribe(user => {
       this.user = user.usuario;
-      
+
       this.miFormulario.get('nombre')?.setValue(this.user.nombre);
       this.miFormulario.get('usuario')?.patchValue(this.user.usuario);
     });
@@ -46,7 +46,7 @@ export class UserUpdateComponent implements OnInit {
       this.miFormulario.get(campo)?.touched
     );
   }
-  
+
   userUpdate() {
     const user = this.miFormulario.value;
     this.usersService.userUpdate(user, this.id_user).subscribe((resp) => {
@@ -66,7 +66,7 @@ export class UserUpdateComponent implements OnInit {
       } else {
         Swal.fire({
           title: 'Error',
-          text: resp.message,
+          text: 'El nombre de usuario ya existe',
           icon: 'error',
           confirmButtonText: 'Aceptar',
           confirmButtonColor: '#0f1765',

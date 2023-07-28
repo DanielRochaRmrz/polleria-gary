@@ -94,6 +94,24 @@
               </td>
             </ng-container>
 
+            <!-- Stock cajas Column -->
+            <ng-container matColumnDef="Stock cajas">
+              <th mat-header-cell *matHeaderCellDef>Stock cajas</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="mobile-label">Stock cajas</span>
+                {{ row.stock_cajas }}
+              </td>
+            </ng-container>
+
+            <!-- Stock tapas Column -->
+            <ng-container matColumnDef="Stock tapas">
+              <th mat-header-cell *matHeaderCellDef>Stock tapas</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="mobile-label">Stock tapas</span>
+                {{ row.stock_tapas }}
+              </td>
+            </ng-container>
+
             <!-- Acciones Column -->
             <ng-container matColumnDef="Acciones">
               <th mat-header-cell *matHeaderCellDef>Acciones</th>
