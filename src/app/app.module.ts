@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import localeEsMX from "@angular/common/locales/es-MX";
-import { registerLocaleData } from "@angular/common";
+import { HashLocationStrategy, LocationStrategy, registerLocaleData } from "@angular/common";
 registerLocaleData(localeEsMX, 'es-MX');
 
 @NgModule({
@@ -24,6 +24,7 @@ registerLocaleData(localeEsMX, 'es-MX');
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es-MX' },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent],
 })
