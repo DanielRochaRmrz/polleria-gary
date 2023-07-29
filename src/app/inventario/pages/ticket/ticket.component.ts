@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import Swal from 'sweetalert2';
 
 import { TicketsService } from '../../services/tickets.service';
 import { Detail, TicketDetails } from '../../interfaces/tickets.interface';
 import { ProductsService } from '../../services/products.service';
-import { Products } from '../../interfaces/products.interface';
 
 @Component({
   selector: 'app-ticket',
@@ -61,5 +61,22 @@ export class TicketComponent implements OnInit {
       })
     });
 
+  }
+
+  printTiket() {
+    this.ticketService.printTicket(this.ticketDetails).subscribe(data => {
+      if (data.status) {
+        Swal.fire({
+          title: 'Éxito',
+          text: 'Ticket impreso correctamente',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#0f1765',
+          customClass: {
+            container: 'my-swal',
+          },
+        });
+      }
+    });
   }
 }

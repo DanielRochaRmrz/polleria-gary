@@ -45,6 +45,19 @@ export class TicketsService {
     );
   }
 
+  printTicket(data: any) {
+    const url = `${this.baseUrl}/ticket-print`;
+    const body = data;
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${localStorage.getItem('token') || ''}`
+    );
+    return this.http.post<any>(url, body, { headers }).pipe(
+      map(resp => resp),
+      catchError(err => (err.error))
+    )
+  }
+
   deleteTicket(id_ticket: number) {
     const url = `${this.baseUrl}/ticket-delete/${id_ticket}`;
     const headers = new HttpHeaders().set(
